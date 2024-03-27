@@ -5,14 +5,27 @@
       src="/static/logo.png"
     />
     <view class="text-area">
-      <text class="title">{{ title }}</text>
+      <text class="title">{{ title }}{{ appStore.store.name }}</text>
     </view>
   </view>
 </template>
 
 <script lang="ts" setup>
+import { useAppStore } from "@/store";
+import { onHide, onLoad, onShow } from "@dcloudio/uni-app";
 import { ref } from "vue";
 const title = ref("Hello");
+const appStore = useAppStore();
+
+onLoad(() => {
+  console.log("onLaunch page...", appStore.store.name);
+});
+onShow(() => {
+  console.log("onShow page...");
+});
+onHide(() => {
+  console.log("onHide page...");
+});
 </script>
 
 <style lang="scss" scoped>
