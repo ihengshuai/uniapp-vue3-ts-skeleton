@@ -1,7 +1,7 @@
-import { HttpClient } from "@/utils";
+import { HttpClientFrequently } from "@/utils";
 
 const BASE_URL = "http://localhost:3000";
-const httpInstance = HttpClient.createInstance;
+const httpInstance = HttpClientFrequently.createInstance;
 httpInstance.setUserConfig({ baseURL: BASE_URL });
 
 const APP_API = {
