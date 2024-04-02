@@ -13,3 +13,22 @@ export enum CONCURRENCY_STATUS {
   PENDING = "pending",
   END = "end",
 }
+
+export enum HTTP_METHOD {
+  GET = "get",
+  POST = "post",
+  PUT = "put",
+  DELETE = "delete",
+  HEAD = "head",
+  OPTIONS = "options",
+  PATCH = "patch",
+  PURGE = "purge",
+  LINK = "link",
+  UNLINK = "unlink",
+}
+
+export enum InterceptorType {
+  RESPONSE = "response",
+  REQUEST = "request",
+  ERROR = "error",
+}
