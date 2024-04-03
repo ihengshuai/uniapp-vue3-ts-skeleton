@@ -39,6 +39,9 @@ export class HttpClientFile extends HttpClient {
         success(result) {
           resolve(result);
         },
+        fail(result) {
+          reject(result);
+        },
       });
     });
   }
@@ -57,6 +60,9 @@ export class HttpClientFile extends HttpClient {
         ...requestPayload,
         success(result) {
           resolve(result);
+        },
+        fail(result) {
+          reject(result);
         },
       });
     });

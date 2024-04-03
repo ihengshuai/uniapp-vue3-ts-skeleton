@@ -1,35 +1,29 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "isolatedModules": true,
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
     "sourceMap": true,
-    "baseUrl": ".",
+    "outDir": "./dist/mock",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": [
-        "./src/*"
-      ]
+        "./mock/*"
+      ],
+      "~/*": [
+        "./*"
+      ],
     },
-    "jsx": "preserve",
-    "jsxImportSource": "vue",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
-    "types": [
-      "@dcloudio/types",
-      // "@types/wechat-miniprogram",
-      // "@uni-helper/uni-ui-types",
-      // "@uni-helper/uni-app-types",
-    ],
-    "verbatimModuleSyntax": true,
-    "resolveJsonModule": true,
-    "useDefineForClassFields": true,
-    "importHelpers": true
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue"
-  ]
+  }
 }

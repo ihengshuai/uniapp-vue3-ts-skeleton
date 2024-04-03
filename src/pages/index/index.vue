@@ -8,13 +8,15 @@
       <text class="title">{{ title }}{{ appStore.store.name }}</text>
     </view>
     <button @click="requestUserMockData">请求...</button>
+    <br />
+    <button @click="requestBusinessErrorData">请求业务错误...</button>
   </view>
 </template>
 
 <script lang="ts" setup>
 import { useAppStore } from "@/store";
 import { onHide, onLoad, onShow } from "@dcloudio/uni-app";
-import { fetchUserMockData } from "@/service/modules/user.service";
+import { fetchUserMockData, fetchBusinessError } from "@/service/modules/user.service";
 
 import { ref } from "vue";
 const title = ref("Hello");
@@ -33,14 +35,20 @@ onHide(() => {
 });
 
 function requestUserMockData() {
-  fetchUserMockData().then(res => console.log(res));
-  // .catch(err => {
-  //   console.log("出错了...", err.message);
-  //   uni.showToast({
-  //     title: err.message || "出错了...",
-  //     icon: "none",
-  //   });
-  // });
+  fetchUserMockData()
+    .then(res => console.log(res))
+    .catch(err => {
+      console.log("出错了...", err.message);
+      uni.showToast({
+        title: err.message || "出错了...",
+        icon: "none",
+      });
+    });
+}
+function requestBusinessErrorData() {
+  fetchBusinessError()
+    .then(res => console.log(res))
+    .catch(console.log);
 }
 </script>
 

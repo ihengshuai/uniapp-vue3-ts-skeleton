@@ -1,7 +1,7 @@
 import { HTTP_DATA_TYPE } from "@/constants/http";
 import type { IHttpRequestConfig } from "@/typings/common/http";
 import type { IDict } from "@/typings/common/type";
-import { type AxiosRequestConfig, type Method } from "axios";
+import { type Method } from "axios";
 import qs from "qs";
 
 function formatRequestURL(url: string, urlPath: IDict<any>) {

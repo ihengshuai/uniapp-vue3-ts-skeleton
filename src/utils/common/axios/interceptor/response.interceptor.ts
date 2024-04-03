@@ -10,8 +10,6 @@ export class BeautifyResInterceptor implements Interceptor {
       const data = res.data;
       const config = res.config;
 
-      debugger;
-
       if (data.statusCode >= 200) {
         if (config.captureError !== false) {
           uni.showToast({
