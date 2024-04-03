@@ -14,6 +14,13 @@ export enum CONCURRENCY_STATUS {
   END = "end",
 }
 
+/** 异常状态枚举 */
+export enum WRONG_MESSAGE {
+  /** 请求被取消 */
+  ABORT = "request:fail abort",
+}
+
+/** HTTP方法 */
 export enum HTTP_METHOD {
   GET = "get",
   POST = "post",
@@ -27,6 +34,7 @@ export enum HTTP_METHOD {
   UNLINK = "unlink",
 }
 
+/** 拦截器类型 */
 export enum InterceptorType {
   RESPONSE = "response",
   REQUEST = "request",

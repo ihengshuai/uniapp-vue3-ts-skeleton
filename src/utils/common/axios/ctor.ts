@@ -17,11 +17,12 @@ function formatRequestURL(url: string, urlPath: IDict<any>) {
 export class HttpClient {
   private static _instance: HttpClient;
   private static _axiosInstance: AxiosInstance;
-  protected _axiosOpts!: IHttpRequestConfig;
+  protected _requestConfig!: IHttpRequestConfig;
   protected _userConfig?: IHttpRequestConfig;
+  private static _requestInstance: Uni["request"];
 
   constructor() {
-    this.initAxiosOpts();
+    this.initRequestConfig();
   }
 
   static get axiosInstance(): AxiosInstance {
@@ -78,7 +79,7 @@ export class HttpClient {
   private getAxiosRequest(method: Method, request: IHttpRequestConfig): AxiosRequestConfig {
     const baseURL = this._userConfig?.baseURL || request.baseURL;
     request.data = request.data || {};
-    const config: IHttpRequestConfig = { ...this._axiosOpts, ...this._userConfig, ...request, method };
+    const config: IHttpRequestConfig = { ...this._requestConfig, ...this._userConfig, ...request, method };
 
     config.url = request.urlPath ? formatRequestURL(request.url!, request.urlPath) : request.url;
     config.url = baseURL ? baseURL + config.url : config.url;
@@ -155,8 +156,8 @@ export class HttpClient {
     });
   }
 
-  private initAxiosOpts() {
-    this._axiosOpts = {
+  private initRequestConfig() {
+    this._requestConfig = {
       retryCount: 0,
       retryInterval: 1000,
       // timeout: config.TIMEOUT || 1000 * 60,

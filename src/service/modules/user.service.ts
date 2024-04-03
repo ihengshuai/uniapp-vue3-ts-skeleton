@@ -1,7 +1,7 @@
-import { HttpClient } from "@/utils";
+import { HttpClientFrequently } from "@/utils/common/axios";
 
-const BASE_URL = "https://mock.apifox.com/m1/3906754-0-default";
-const httpInstance = HttpClient.createInstance;
+const BASE_URL = "https://xxx";
+const httpInstance = HttpClientFrequently.createInstance;
 httpInstance.setUserConfig({ baseURL: BASE_URL });
 
 const APP_API = {
@@ -9,5 +9,13 @@ const APP_API = {
 };
 
 export function fetchUserMockData() {
-  return httpInstance.get(APP_API.HOME, {});
+  return httpInstance.get(APP_API.HOME, {
+    data: {
+      page: 1,
+      pageSize: 10,
+    },
+    retryCount: 3,
+    // captureError: false,
+    timeStamp: true,
+  });
 }

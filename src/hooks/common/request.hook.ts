@@ -1,1 +1,3 @@
-export function useRequest() {}
+export function useRequest() {
+  console.log("log...");
+}
