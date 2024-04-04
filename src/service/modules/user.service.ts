@@ -1,8 +1,9 @@
 import { useConfig } from "@/config";
+import { HTTP_DATA_TYPE } from "@/constants/http";
 import type { IHttpRequestConfig } from "@/typings/common/http";
 import { HttpClientFrequently } from "@/utils";
 
-const { USE_MOCK, MOCK_API, API_DOMAIN, __isDev__ } = useConfig();
+const { __isDev__, USE_MOCK, MOCK_API, API_DOMAIN } = useConfig();
 
 const BASE_URL = __isDev__ && USE_MOCK && !!MOCK_API ? MOCK_API : API_DOMAIN;
 const httpInstance = HttpClientFrequently.instance;
@@ -18,11 +19,12 @@ const APP_API = {
 export function fetchUserMockData(userId: number, page = 1, pageSize = 10, config?: IHttpRequestConfig) {
   return httpInstance.get<string>(APP_API.CONRECT_REQUEST, {
     urlPath: {
-      userId: +new Date(),
+      userId,
     },
-    data: {
+    params: {
       page,
       pageSize,
+      userIds: [1, 2, 3],
     },
     retryCount: 3,
     // captureError: false,

@@ -15,9 +15,10 @@ export const useAppStore = defineStore("appStore", () => {
 
   // 可以定义用户信息接口类型，这里省略
   function setUserConfig(config: any) {
-    userInfo.name = config.name;
-    userInfo.age = config.age;
-    userInfo.sex = config.sex;
+    // 这里服务器返回的是`user_name`key，请求库会根据配置自动转为`userName`小驼峰
+    userInfo.name = config.userName;
+    userInfo.age = config.userAge;
+    userInfo.sex = config.userSex;
   }
 
   return {

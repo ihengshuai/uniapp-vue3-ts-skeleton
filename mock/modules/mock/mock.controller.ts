@@ -21,9 +21,12 @@ export class MockController {
     await sleep(1000);
 
     return {
-      name: "ihengshuai",
-      age: 18,
-      sex: "男",
+      // eslint-disable-next-line camelcase
+      user_name: "ihengshuai",
+      // eslint-disable-next-line camelcase
+      user_age: 18,
+      // eslint-disable-next-line camelcase
+      user_sex: "男",
     };
   }
 }

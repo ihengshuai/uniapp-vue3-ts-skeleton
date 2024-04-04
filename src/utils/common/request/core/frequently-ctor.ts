@@ -143,6 +143,7 @@ export class HttpClientFrequently extends HttpClient {
           }
         },
       });
+
       requestConfig.signal = requestTask;
       CancelToken.instance.register(requestConfig);
     });
@@ -150,6 +151,5 @@ export class HttpClientFrequently extends HttpClient {
 }
 
 HttpClientFrequently.useInterceptors(NecessaryReqInterceptor, LogReqInterceptor);
-HttpClientFrequently.useInterceptors(NecessaryResInterceptor, LogResInterceptor);
-HttpClientFrequently.useInterceptors(BeautifyResInterceptor);
+HttpClientFrequently.useInterceptors(NecessaryResInterceptor, LogResInterceptor, BeautifyResInterceptor);
 HttpClientFrequently.useInterceptors(NecessaryErrorInterceptor);

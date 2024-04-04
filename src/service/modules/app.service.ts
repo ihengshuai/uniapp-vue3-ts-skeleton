@@ -14,5 +14,6 @@ const APP_API = {
 export function fetchHomeData() {
   return httpInstance.get(APP_API.HOME, {
     label: "全局请求",
+    transferToCamel: true,
   });
 }

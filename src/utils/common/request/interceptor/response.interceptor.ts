@@ -1,5 +1,6 @@
 import { InterceptorType } from "@/constants/http";
 import type { Interceptor, IInterceptorData, IHttpError } from "@/typings/common/http";
+import { snakeToCamel } from "@/utils";
 
 /** 必要的响应拦截器 */
 export class NecessaryResInterceptor implements Interceptor {
@@ -16,7 +17,7 @@ export class NecessaryResInterceptor implements Interceptor {
       const customBusinessStatus = config.customBusinessStatusHook?.(res);
       const isBusinessError = typeof customBusinessStatus === "boolean" ? customBusinessStatus : payload.code >= 300;
 
-      // 业务状态码错误时
+      // 业务状态码错误时抛出
       if (isBusinessError) {
         // TODO: 按需补充业务逻辑
         const error = new Error(payload.error || "出错了...") as IHttpError;
@@ -24,13 +25,6 @@ export class NecessaryResInterceptor implements Interceptor {
         error.config = config;
         error.response = data;
         error.isBusinessError = true;
-
-        if (config.captureError !== false) {
-          uni.showToast({
-            title: error.message,
-            icon: "none",
-          });
-        }
 
         return reject(error);
       }
@@ -52,8 +46,12 @@ export class BeautifyResInterceptor implements Interceptor {
   type = InterceptorType.RESPONSE;
 
   async interceptor(res: IInterceptorData): Promise<any> {
+    const config = res.config;
+    const { transferToCamel } = config;
+
+    // TODO: 根据业务情况调整
     const payload = res.data.payload;
-    return payload.data;
+    return transferToCamel !== false ? snakeToCamel(payload.data) : payload.data;
   }
 
   static get instance() {

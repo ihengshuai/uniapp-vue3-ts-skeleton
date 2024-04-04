@@ -9,6 +9,8 @@ export class NecessaryErrorInterceptor implements Interceptor {
 
   async interceptor(err: IHttpError): Promise<any> {
     const config = err.config;
+
+    // 非业务错误
     if (!err.isBusinessError) {
       let message = "请求失败";
       if (err.message === WRONG_MESSAGE.FAIL) {
@@ -19,6 +21,13 @@ export class NecessaryErrorInterceptor implements Interceptor {
       if (config?.captureError !== false) {
         uni.showToast({
           title: message,
+          icon: "none",
+        });
+      }
+    } /* 业务错误 */ else {
+      if (config?.captureError !== false) {
+        uni.showToast({
+          title: err.message,
           icon: "none",
         });
       }
