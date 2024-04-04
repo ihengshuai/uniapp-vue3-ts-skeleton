@@ -1,19 +1,25 @@
+import { useConfig } from "@/config";
 import type { IHttpRequestConfig } from "@/typings/common/http";
 import { HttpClientFrequently } from "@/utils";
 
-const BASE_URL = "http://localhost:10011";
+const { USE_MOCK, MOCK_API, API_DOMAIN, __isDev__ } = useConfig();
+
+const BASE_URL = __isDev__ && USE_MOCK && !!MOCK_API ? MOCK_API : API_DOMAIN;
 const httpInstance = HttpClientFrequently.instance;
 httpInstance.setUserConfig({ baseURL: BASE_URL });
 
 const APP_API = {
-  CONRECT_REQUEST: `/api/mock/correct-request`,
+  CONRECT_REQUEST: `/api/mock/correct-request/{userId}`, // userId为url路径参数
   BUSINESS_ERROR: `/api/mock/business-error-request`,
   SERVER_ERROR: `/api/mock/server-error-request`,
 };
 
 /** 模拟正确请求 */
-export function fetchUserMockData(page = 1, pageSize = 10, config?: IHttpRequestConfig) {
+export function fetchUserMockData(userId: number, page = 1, pageSize = 10, config?: IHttpRequestConfig) {
   return httpInstance.get<string>(APP_API.CONRECT_REQUEST, {
+    urlPath: {
+      userId: +new Date(),
+    },
     data: {
       page,
       pageSize,
@@ -50,7 +56,7 @@ export function fetchCustomBusinessErrorHook(config?: IHttpRequestConfig) {
 /** 模拟服务器出错请求 */
 export function fetchServerError(config?: IHttpRequestConfig) {
   return httpInstance.post(APP_API.SERVER_ERROR, {
-    baseURL: "https://mockx.apifox1.com/ssdf/xxefault",
+    baseURL: "https://mockx.apifox1.com/ssdf/xxefault", // 一个不存在的地址模拟错误请求
     retryCount: 3,
     headers: {
       "is-server-error": true,

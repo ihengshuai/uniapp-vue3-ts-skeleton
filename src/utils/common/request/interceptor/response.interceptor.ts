@@ -3,7 +3,7 @@ import type { Interceptor, IInterceptorData, IHttpError } from "@/typings/common
 
 /** 必要的响应拦截器 */
 export class NecessaryResInterceptor implements Interceptor {
-  private static _ins?: NecessaryResInterceptor;
+  static _ins: NecessaryResInterceptor;
   type = InterceptorType.RESPONSE;
 
   async interceptor(res: IInterceptorData) {
@@ -48,7 +48,7 @@ export class NecessaryResInterceptor implements Interceptor {
 
 /** 修剪最终的数据格式返回调用处 */
 export class BeautifyResInterceptor implements Interceptor {
-  private static _ins?: BeautifyResInterceptor;
+  static _ins: BeautifyResInterceptor;
   type = InterceptorType.RESPONSE;
 
   async interceptor(res: IInterceptorData): Promise<any> {
@@ -66,11 +66,19 @@ export class BeautifyResInterceptor implements Interceptor {
 
 /** 响应日志 */
 export class LogResInterceptor implements Interceptor {
-  private static _ins?: LogResInterceptor;
+  static _ins: LogResInterceptor;
   type = InterceptorType.RESPONSE;
 
   async interceptor(res: IInterceptorData) {
-    console.log("响应日志: ", res);
+    const config = res.config;
+
+    console.log(
+      `%c 响应日志: %c${config.label ? `【${config.label}】` : ""}`,
+      "background:green;padding:2px 4px;color:#fff;font-weight:600",
+      null,
+      res
+    );
+
     return res;
   }
 

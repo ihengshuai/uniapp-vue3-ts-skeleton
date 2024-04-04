@@ -3,7 +3,7 @@ import type { IHttpRequestConfig, Interceptor } from "@/typings/common/http";
 
 /** 必要的请求拦截器 */
 export class NecessaryReqInterceptor implements Interceptor {
-  private static _ins?: NecessaryReqInterceptor;
+  static _ins: NecessaryReqInterceptor;
   type: InterceptorType = InterceptorType.REQUEST;
 
   async interceptor(config: IHttpRequestConfig): Promise<IHttpRequestConfig> {
@@ -29,11 +29,17 @@ export class NecessaryReqInterceptor implements Interceptor {
 
 /** 请求日志 */
 export class LogReqInterceptor implements Interceptor {
-  private static _ins?: LogReqInterceptor;
+  static _ins: LogReqInterceptor;
   type = InterceptorType.REQUEST;
 
   async interceptor(config: IHttpRequestConfig) {
-    console.log("请求日志: ", config);
+    console.log(
+      `%c 请求日志: %c${config.label ? `【${config.label}】` : ""}`,
+      "background:gray;padding:2px 4px;color:#fff;font-weight:600",
+      null,
+      config
+    );
+
     return config;
   }
 

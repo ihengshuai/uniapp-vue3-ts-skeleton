@@ -25,7 +25,7 @@ export default defineConfig({
   },
   // 全局常量
   define: {
-    __isDev__,
+    // __isDev__,
     "import.meta.env.VITE_COOKIE_DOMAIN": JSON.stringify(config.COOKIE_DOMAIN),
     "import.meta.env.VITE_COOKIE_LANG_KEY": JSON.stringify(config.COOKIE_LANG_KEY),
   },
@@ -41,7 +41,7 @@ export default defineConfig({
         terserOptions: {
           compress: {
             // eslint-disable-next-line camelcase
-            drop_console: true,
+            drop_console: config.DROP_CONSOLE !== "false",
           },
         },
       },

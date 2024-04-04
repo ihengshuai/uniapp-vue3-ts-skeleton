@@ -9,7 +9,7 @@ import {
   LogResInterceptor,
   NecessaryResInterceptor,
   NecessaryReqInterceptor,
-  ErrorResInterceptor,
+  NecessaryErrorInterceptor,
   LogReqInterceptor,
 } from "../interceptor";
 
@@ -37,8 +37,8 @@ export class HttpClientFrequently extends HttpClient {
     return this._requestInstance;
   }
 
-  static useInterceptors(...interceptors: Interceptor[]) {
-    HttpClientFrequently._interceptors.push(...interceptors);
+  static useInterceptors(...interceptors: (typeof Interceptor)[]) {
+    HttpClientFrequently._interceptors.push(...interceptors.map(l => l.instance));
   }
 
   private static get responseInterceptors() {
@@ -79,8 +79,13 @@ export class HttpClientFrequently extends HttpClient {
   public async request<T>(method: Method, request: IHttpRequestConfig): Promise<T> {
     request = request || {};
     request.method = method;
-    request = await runInterceptors<IHttpRequestConfig>(HttpClientFrequently.requestInterceptors, request);
-    return this.send(this.getRequestConfig(method, request));
+
+    return this.send(
+      await runInterceptors<IHttpRequestConfig>(
+        HttpClientFrequently.requestInterceptors,
+        this.getRequestConfig(method, request)
+      )
+    );
   }
 
   private async send<T>(requestConfig: IHttpRequestConfig): Promise<T> {
@@ -144,7 +149,7 @@ export class HttpClientFrequently extends HttpClient {
   }
 }
 
-HttpClientFrequently.useInterceptors(NecessaryReqInterceptor.instance, LogReqInterceptor.instance);
-HttpClientFrequently.useInterceptors(NecessaryResInterceptor.instance, LogResInterceptor.instance);
-HttpClientFrequently.useInterceptors(BeautifyResInterceptor.instance);
-HttpClientFrequently.useInterceptors(ErrorResInterceptor.instance);
+HttpClientFrequently.useInterceptors(NecessaryReqInterceptor, LogReqInterceptor);
+HttpClientFrequently.useInterceptors(NecessaryResInterceptor, LogResInterceptor);
+HttpClientFrequently.useInterceptors(BeautifyResInterceptor);
+HttpClientFrequently.useInterceptors(NecessaryErrorInterceptor);

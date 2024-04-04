@@ -18,7 +18,10 @@ export enum CONCURRENCY_STATUS {
 export enum WRONG_MESSAGE {
   /** 请求被取消 */
   ABORT = "request:fail abort",
+  /** 请求失败 */
   FAIL = "request:fail",
+  /** 请求超时 */
+  TIMEOUT = "request:fail timeout",
 }
 
 /** HTTP方法 */

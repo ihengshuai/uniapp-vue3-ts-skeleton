@@ -187,6 +187,12 @@ export interface IHttpRequestConfig extends AxiosRequestConfig, IMiniProgramRequ
    */
   $request?: IHttpRequestConfig;
   signal?: UniApp.RequestTask;
+
+  /**
+   * 请求标识，方便日志查询
+   */
+  label?: string;
+
   /**
    * 自定义业务状态判断逻辑
    * @param res 响应数据
