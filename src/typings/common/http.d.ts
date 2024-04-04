@@ -8,9 +8,44 @@ export abstract class Interceptor {
   static instance: Interceptor;
 }
 
-export interface IResponseData {
-  data: any;
+export interface IHttpError {
+  code?: number;
+  message: string;
+  config?: IHttpRequestConfig;
+  response?: any;
+  /** 用来区分是否业务错误 */
+  isBusinessError?: boolean;
+}
+
+export interface IInterceptorData {
+  /**
+   * 配置
+   */
   config: IHttpRequestConfig;
+  /**
+   * 后端返回的真实载体
+   */
+  data: {
+    statusCode: number;
+    payload: {
+      /**
+       * 后端状态码
+       */
+      code: number;
+      /**
+       * 有效数据
+       */
+      data: any;
+      /**
+       * 消息信息
+       */
+      message?: string;
+      /**
+       * 错误信息
+       */
+      error?: string;
+    };
+  };
 }
 
 // https://zh.uniapp.dcloud.io/api/request/request.html#request
@@ -152,41 +187,19 @@ export interface IHttpRequestConfig extends AxiosRequestConfig, IMiniProgramRequ
    */
   $request?: IHttpRequestConfig;
   signal?: UniApp.RequestTask;
+  /**
+   * 自定义业务状态判断逻辑
+   * @param res 响应数据
+   * @default res.data.payload.code >= 300 表示错误
+   * @description payload 为后端返回的数据，具体根据后端进行调整
+   */
+  customBusinessStatusHook?: (res: IInterceptorData) => boolean;
 }
 
 declare module "axios" {
   // eslint-disable-next-line @typescript-eslint/naming-convention, no-unused-vars
   interface AxiosRequestConfig {
     $request?: IHttpRequestConfig;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/naming-convention, no-unused-vars
-  interface AxiosResponse {
-    /**
-     * 配置
-     */
-    config: IHttpRequestConfig;
-    /**
-     * 后端返回的真实载体
-     */
-    payload?: {
-      /**
-       * 后端状态码
-       */
-      code: number;
-      /**
-       * 有效数据
-       */
-      data: any;
-      /**
-       * 消息信息
-       */
-      message?: string;
-      /**
-       * 错误信息
-       */
-      error?: string;
-    };
   }
 
   // eslint-disable-next-line @typescript-eslint/naming-convention, @typescript-eslint/no-empty-interface, no-unused-vars

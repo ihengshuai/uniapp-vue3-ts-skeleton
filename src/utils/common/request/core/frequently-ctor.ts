@@ -1,16 +1,30 @@
-import type { IHttpRequestConfig, Interceptor } from "@/typings/common/http";
+import type { IHttpError, IHttpRequestConfig, Interceptor } from "@/typings/common/http";
 import type { Method } from "axios";
 import { HttpClient } from "./base";
 import { CancelToken } from "../cancel-token";
 import { HTTP_METHOD, InterceptorType, WRONG_MESSAGE } from "@/constants/http";
-import { BeautifyResInterceptor, LogResInterceptor, PruneResponse } from "../interceptor/response.interceptor";
-import { runInterceptors } from "../interceptor/helper";
-import { CommonReqInterceptor } from "../interceptor/request.interceptor";
+import {
+  runInterceptors,
+  BeautifyResInterceptor,
+  LogResInterceptor,
+  NecessaryResInterceptor,
+  NecessaryReqInterceptor,
+  ErrorResInterceptor,
+  LogReqInterceptor,
+} from "../interceptor";
 
 export class HttpClientFrequently extends HttpClient {
+  private static _instance: HttpClientFrequently;
+  private static _requestInstance: Uni["request"];
+
   private static _interceptors: Interceptor[] = [];
 
-  private static _requestInstance: Uni["request"];
+  static get instance(): HttpClientFrequently {
+    if (!this._instance) {
+      this._instance = new HttpClientFrequently();
+    }
+    return this._instance;
+  }
 
   static get createInstance() {
     return new HttpClientFrequently();
@@ -23,7 +37,7 @@ export class HttpClientFrequently extends HttpClient {
     return this._requestInstance;
   }
 
-  static setInterceptors(...interceptors: Interceptor[]) {
+  static useInterceptors(...interceptors: Interceptor[]) {
     HttpClientFrequently._interceptors.push(...interceptors);
   }
 
@@ -85,17 +99,23 @@ export class HttpClientFrequently extends HttpClient {
         success(result) {
           const responseData = {
             config: requestConfig,
-            data: result,
+            data: {
+              ...result,
+              payload: result.data,
+            },
           };
           runInterceptors(HttpClientFrequently.responseInterceptors, responseData)
             .then(resolve)
             .catch(async err => {
-              const error = await runInterceptors(HttpClientFrequently.errorInterceptors, err);
-              reject(error);
+              try {
+                await runInterceptors(HttpClientFrequently.errorInterceptors, err);
+              } catch (error) {
+                reject(error);
+              }
             });
         },
-        fail: err => {
-          if (err && err.errMsg === WRONG_MESSAGE.ABORT) return;
+        fail: async err => {
+          if (err && err.errMsg === WRONG_MESSAGE.ABORT) return err;
 
           const request = requestConfig.$request!;
           if (request?.retryCount && request.retryCount > 0) {
@@ -104,7 +124,17 @@ export class HttpClientFrequently extends HttpClient {
               this.send(requestConfig).then(resolve).catch(reject);
             }, request.retryInterval);
           } else {
-            reject(err);
+            try {
+              const error = new Error(err.errMsg || "请求失败...") as IHttpError;
+              error.code = 500;
+              error.config = requestConfig;
+              error.response = err;
+              error.isBusinessError = false;
+
+              await runInterceptors(HttpClientFrequently.errorInterceptors, error);
+            } catch (error) {
+              reject(error);
+            }
           }
         },
       });
@@ -114,6 +144,7 @@ export class HttpClientFrequently extends HttpClient {
   }
 }
 
-HttpClientFrequently.setInterceptors(CommonReqInterceptor.instance);
-HttpClientFrequently.setInterceptors(BeautifyResInterceptor.instance, LogResInterceptor.instance);
-HttpClientFrequently.setInterceptors(PruneResponse.instance);
+HttpClientFrequently.useInterceptors(NecessaryReqInterceptor.instance, LogReqInterceptor.instance);
+HttpClientFrequently.useInterceptors(NecessaryResInterceptor.instance, LogResInterceptor.instance);
+HttpClientFrequently.useInterceptors(BeautifyResInterceptor.instance);
+HttpClientFrequently.useInterceptors(ErrorResInterceptor.instance);

@@ -15,7 +15,6 @@ function formatRequestURL(url: string, urlPath: IDict<any>) {
 }
 
 export class HttpClient {
-  private static _instance: HttpClient;
   protected _requestConfig!: IHttpRequestConfig;
   protected _userConfig?: IHttpRequestConfig;
 
@@ -23,19 +22,12 @@ export class HttpClient {
     this.initRequestConfig();
   }
 
-  static get instance(): HttpClient {
-    if (!this._instance) {
-      this._instance = new HttpClient();
-    }
-    return this._instance;
-  }
-
   static get createInstance() {
     return new HttpClient();
   }
 
   protected getRequestConfig(method: Method, request: IHttpRequestConfig): IHttpRequestConfig {
-    const baseURL = this._userConfig?.baseURL || request.baseURL;
+    const baseURL = request.baseURL || this._userConfig?.baseURL;
     request.data = request.data || {};
     const config: IHttpRequestConfig = { ...this._requestConfig, ...this._userConfig, ...request, method };
 
@@ -63,7 +55,7 @@ export class HttpClient {
             formData.append(name, request.data[name]);
           }
         }
-        const requestFiles = request.files;
+        const requestFiles = request.files as any;
         for (const name in requestFiles) {
           if (requestFiles[name]) {
             formData.append(name, requestFiles[name]);

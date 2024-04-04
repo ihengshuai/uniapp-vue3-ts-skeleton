@@ -3,13 +3,13 @@ import { Controller, ForbiddenException, Get, Post } from "@nestjs/common";
 
 @Controller("/api/mock")
 export class MockController {
-  @Get("/hello")
+  @Get("/correct-request")
   async renderHello() {
     await sleep(1000);
-    return "hello world";
+    return "Hi, I'm the data from server..." + new Date().getTime();
   }
 
-  @Post("/get-business-error")
+  @Post("/business-error-request")
   async renderError() {
     await sleep(1000);
 

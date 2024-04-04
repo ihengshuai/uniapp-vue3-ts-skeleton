@@ -1,8 +1,9 @@
 import { HTTP_METHOD, InterceptorType } from "@/constants/http";
 import type { IHttpRequestConfig, Interceptor } from "@/typings/common/http";
 
-export class CommonReqInterceptor implements Interceptor {
-  private static _ins?: CommonReqInterceptor;
+/** 必要的请求拦截器 */
+export class NecessaryReqInterceptor implements Interceptor {
+  private static _ins?: NecessaryReqInterceptor;
   type: InterceptorType = InterceptorType.REQUEST;
 
   async interceptor(config: IHttpRequestConfig): Promise<IHttpRequestConfig> {
@@ -20,7 +21,25 @@ export class CommonReqInterceptor implements Interceptor {
 
   static get instance() {
     if (!this._ins) {
-      this._ins = new CommonReqInterceptor();
+      this._ins = new NecessaryReqInterceptor();
+    }
+    return this._ins;
+  }
+}
+
+/** 请求日志 */
+export class LogReqInterceptor implements Interceptor {
+  private static _ins?: LogReqInterceptor;
+  type = InterceptorType.REQUEST;
+
+  async interceptor(config: IHttpRequestConfig) {
+    console.log("请求日志: ", config);
+    return config;
+  }
+
+  static get instance() {
+    if (!this._ins) {
+      this._ins = new LogReqInterceptor();
     }
     return this._ins;
   }

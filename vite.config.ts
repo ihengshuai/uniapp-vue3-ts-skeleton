@@ -9,8 +9,6 @@ const pathResolve = (dir: string) => path.resolve(root, ".", dir);
 
 const __isDev__ = process.env.NODE_ENV === "development";
 
-console.log(__isDev__);
-
 const config =
   dotenv.config({
     path: __isDev__ ? pathResolve(".env") : pathResolve(".env.production"),

@@ -5,26 +5,55 @@
       src="/static/logo.png"
     />
     <view class="text-area">
-      <text class="title">{{ title }}{{ appStore.store.name }}</text>
+      <text class="title">{{ title }} {{ appStore.store.name }}</text>
     </view>
-    <button @click="requestUserMockData">请求...</button>
     <br />
-    <button @click="requestBusinessErrorData">请求业务错误...</button>
+    <view
+      v-if="serverData"
+      style="color: #999; font-size: 28rpx"
+    >
+      {{ serverData }}
+    </view>
+    <button
+      :loading="loading"
+      :disabled="loading"
+      @click="requestUserMockData"
+    >
+      成功请求
+    </button>
+    <br />
+    <button @click="requestBusinessErrorData">业务状态码错误(疯狂点击取消重复请求)</button>
+    <br />
+    <button @click="requestCustomBusinessErrorHookData">自定义业务错误钩子</button>
+    <br />
+    <button
+      :loading="loading2"
+      :disabled="loading2"
+      @click="requestServerErrorData"
+    >
+      服务器出错(自动重试)
+    </button>
   </view>
 </template>
 
 <script lang="ts" setup>
-import { useAppStore } from "@/store";
-import { onHide, onLoad, onShow } from "@dcloudio/uni-app";
-import { fetchUserMockData, fetchBusinessError } from "@/service/modules/user.service";
-
 import { ref } from "vue";
+import { onHide, onLoad, onShow } from "@dcloudio/uni-app";
+import { useAppStore } from "@/store";
+import {
+  fetchUserMockData,
+  fetchBusinessError,
+  fetchServerError,
+  fetchCustomBusinessErrorHook,
+} from "@/service/modules/user.service";
+
 const title = ref("Hello");
 const appStore = useAppStore();
+const loading2 = ref(false);
+const loading = ref(false);
+const serverData = ref();
 
 onLoad(() => {
-  requestUserMockData();
-
   console.log("onLaunch page...", appStore.store.name);
 });
 onShow(() => {
@@ -35,20 +64,45 @@ onHide(() => {
 });
 
 function requestUserMockData() {
+  serverData.value = null;
+  loading.value = true;
   fetchUserMockData()
-    .then(res => console.log(res))
+    .then(res => {
+      serverData.value = res;
+    })
     .catch(err => {
       console.log("出错了...", err.message);
       uni.showToast({
         title: err.message || "出错了...",
         icon: "none",
       });
+    })
+    .finally(() => {
+      loading.value = false;
     });
 }
 function requestBusinessErrorData() {
-  fetchBusinessError()
-    .then(res => console.log(res))
-    .catch(console.log);
+  fetchBusinessError();
+}
+async function requestCustomBusinessErrorHookData() {
+  try {
+    const res = await fetchCustomBusinessErrorHook();
+    console.log(res);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function requestServerErrorData() {
+  loading2.value = true;
+  try {
+    const res = await fetchServerError();
+    console.log(res);
+  } catch (error: any) {
+    console.log("请求出错了...", error.message);
+  } finally {
+    loading2.value = false;
+  }
 }
 </script>
 
