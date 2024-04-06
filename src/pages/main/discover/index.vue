@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <PageMain>
     <text>发现</text>
     <u-calendar
       :show="show"
@@ -7,11 +7,12 @@
       @confirm="toggleShow"
     />
     <u-button @click="toggleShow">打开日历</u-button>
-  </view>
+  </PageMain>
 </template>
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import PageMain from "@/components/page-main/index.vue";
 
 const show = ref(false);
 

@@ -1,19 +1,15 @@
 <template>
-  <view>
-    <view class="navigation">
-      <view
-        class="navigation__bar"
-        :style="`height: ${systemStatusBarHeight}rpx`"
-      ></view>
-      <view
-        class="navigation__body"
-        :style="`height: ${miniBarHeight}rpx`"
-      >
-        自定义标题
-      </view>
+  <PageMain
+    fixed-header
+    custom-header
+    custom-header-css-style="background:#f40"
+  >
+    <view
+      v-for="item in 100"
+      :key="item"
+    >
+      package-a 页面{{ item }}...
     </view>
-    <CustomNavigation :custom-bar-style-vars="customBarStyleVars" />
-    <view>package-a 页面...</view>
     <view>
       <u-tabbar
         :value="tabActiveIdx"
@@ -43,25 +39,28 @@
         ></u-tabbar-item>
       </u-tabbar>
     </view>
-  </view>
+  </PageMain>
 </template>
 
 <script lang="ts" setup>
 import { onLoad } from "@dcloudio/uni-app";
 import { ref } from "vue";
 import { useNavigationBounding } from "@/hooks/common";
-import CustomNavigation from "@/components/common/custom-navigation.vue";
+import PageMain from "@/components/page-main/index.vue";
 
+// variables
 const tabActiveIdx = ref(0);
 const clickTabItem = (idx: number) => {
   tabActiveIdx.value = idx;
 };
 
-const { systemStatusBarHeight, miniBarHeight, customBarStyleVars } = useNavigationBounding();
-
+// hooks
+useNavigationBounding({ provider: true });
 onLoad(query => {
   console.log("package-a onLoad", query);
 });
+
+// functions
 </script>
 
 <style lang="scss" scoped>

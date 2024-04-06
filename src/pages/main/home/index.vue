@@ -1,5 +1,5 @@
 <template>
-  <view class="content">
+  <PageMain class="content">
     <text>\n</text>
     <view v-if="userInfo.name && userInfo.age && userInfo.sex">
       来自App全局请求的数据：
@@ -54,7 +54,7 @@
       打开webview
     </u-button>
     <text>\n</text>
-  </view>
+  </PageMain>
 </template>
 
 <script lang="ts" setup>
@@ -68,6 +68,7 @@ import {
   fetchCustomBusinessErrorHook,
 } from "@/service/modules/user.service";
 import { storeToRefs } from "pinia";
+import PageMain from "@/components/page-main/index.vue";
 
 const title = ref("Hello");
 const appStore = useAppStore();
@@ -144,18 +145,6 @@ async function requestServerErrorData() {
 <style lang="scss" scoped>
 $color: salmon;
 
-.box {
-  color: $color;
-  background: gray;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .logo {
   height: 200rpx;
   width: 200rpx;
@@ -163,6 +152,10 @@ $color: salmon;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 50rpx;
+}
+
+.content {
+  text-align: center;
 }
 
 .text-area {

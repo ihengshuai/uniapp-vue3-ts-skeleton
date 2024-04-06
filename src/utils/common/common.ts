@@ -1,3 +1,16 @@
+/**
+ * 日志
+ */
+export class Logger {
+  static log(...args: any) {
+    console.log("%c LogInfo %c", "background:rgba(255, 255, 255, 0.4);color:#fff", null, ...args);
+  }
+
+  static warn(...args: any) {
+    console.log("%c LogWarn %c", "background:#a77f31;color:#ececec", null, ...args);
+  }
+}
+
 // 延时
 export function sleep(ms?: number) {
   return new Promise(resolve => setTimeout(resolve, ms || 10));
