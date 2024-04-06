@@ -1,5 +1,4 @@
 import { useConfig } from "@/config";
-import { HTTP_DATA_TYPE } from "@/constants/http";
 import type { IHttpRequestConfig } from "@/typings/common/http";
 import { HttpClientFrequently } from "@/utils";
 

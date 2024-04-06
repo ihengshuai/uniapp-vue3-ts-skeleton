@@ -1,4 +1,5 @@
 import { useConfig } from "@/config";
+import type { IUserInfo } from "@/typings/business/user.interceface";
 import { HttpClientFrequently } from "@/utils";
 
 const { USE_MOCK, MOCK_API, API_DOMAIN, __isDev__ } = useConfig();
@@ -12,8 +13,9 @@ const APP_API = {
 };
 
 export function fetchHomeData() {
-  return httpInstance.get(APP_API.HOME, {
+  return httpInstance.get<IUserInfo>(APP_API.HOME, {
     label: "全局请求",
     transferToCamel: true,
+    timeStamp: true,
   });
 }
