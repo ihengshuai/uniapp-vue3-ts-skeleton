@@ -7,3 +7,12 @@ declare module "@vue/runtime-core" {
   // eslint-disable-next-line @typescript-eslint/naming-convention, no-unused-vars
   interface ComponentCustomOptions extends Hooks {}
 }
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/naming-convention, no-unused-vars
+  interface Uni {
+    $u: {
+      setConfig(opts: any): void;
+    };
+  }
+}

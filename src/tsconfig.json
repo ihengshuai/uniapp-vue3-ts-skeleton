@@ -19,6 +19,9 @@
     ],
     "types": [
       "@dcloudio/types",
+      // 已废弃...
+      "@ttou/uview-typings/v26",
+      "@ttou/uview-typings/refs"
       // "@types/wechat-miniprogram",
       // "@uni-helper/uni-ui-types",
       // "@uni-helper/uni-app-types",
