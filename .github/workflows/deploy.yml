@@ -1,0 +1,39 @@
+# https://docs.github.com/zh/actions
+name: deploy
+
+on:
+  push:
+    branches:
+      - dev
+      - template
+
+env:
+  DOMAIN: uniapp-v3.usword.cn
+  ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+  REPOSITORY: ${{ github.repository }}
+  OWNER: ${{ github.repository_owner }}
+  EMAIL: "wsm_1105@163.com"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        # run: pnpm install --legacy-peer-deps
+        run: pnpm --registry=https://registry.npmmirror.com install --no-frozen-lockfile
+
+      - name: Configure project
+        run: cp .env.example .env.production && echo VITE_COOKIE_DOMAIN=${{ env.DOMAIN }} >> .env.production && echo VITE_API_DOMAIN=/github-page-mock >> .env.production
+
+      - name: Build project
+        run: pnpm build:h5
+
+      - name: Deploy Github Page
+        run: chmod +x ./scripts/github/deploy-page.sh && ./scripts/github/deploy-page.sh
