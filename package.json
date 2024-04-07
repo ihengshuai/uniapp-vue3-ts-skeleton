@@ -37,10 +37,11 @@
     "build:quickapp-webview": "uni build -p quickapp-webview",
     "build:quickapp-webview-huawei": "uni build -p quickapp-webview-huawei",
     "build:quickapp-webview-union": "uni build -p quickapp-webview-union",
+    "ci": "mini-ci start",
     "type-check": "vue-tsc --noEmit",
     "lint": "pnpm lint:js",
     "lint:js": "eslint --cache --cache-location 'node_modules/.cache/.cache_eslint' --max-warnings 5  \"src/**/*.{vue,ts,tsx}\" --fix",
-    "postinstall": "husky install"
+    "postinstall": "husky install && node scripts/install.js"
   },
   "dependencies": {
     "@dcloudio/uni-app": "3.0.0-3081220230817001",
@@ -90,6 +91,10 @@
     "@dcloudio/uni-cli-shared": "3.0.0-3081220230817001",
     "@dcloudio/uni-stacktracey": "3.0.0-3081220230817001",
     "@dcloudio/vite-plugin-uni": "3.0.0-3081220230817001",
+    "@hengshuai/mini-ci": "^0.1.8",
+    "@hengshuai/mini-core": "^0.1.7",
+    "@hengshuai/mini-type": "^0.1.7",
+    "@hengshuai/mini-wechat": "^0.1.7",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@types/cookie-parser": "^1.4.6",
