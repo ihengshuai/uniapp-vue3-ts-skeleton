@@ -1,33 +1,25 @@
 import { defineConfig } from "vite";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import uni from "@dcloudio/vite-plugin-uni";
-import path from "path";
-import dotenv from "dotenv";
+import compression from "vite-plugin-compression";
+import { buildProjectConfigPlugin } from "./scripts/vite/plugin";
+import { envConfig } from "./scripts/env";
+import { resolvePath } from "./scripts/util";
 
-const root = process.cwd();
-const pathResolve = (dir: string) => path.resolve(root, ".", dir);
-
-const __isDev__ = process.env.NODE_ENV === "development";
-
-const config =
-  dotenv.config({
-    path: __isDev__ ? pathResolve(".env") : pathResolve(".env.production"),
-    override: true,
-  })?.parsed || ({} as any);
+const { __isDev__, __isH5__ } = envConfig;
 
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
-      "@": pathResolve("src"),
-      "~": pathResolve("."),
+      "@": resolvePath("src"),
+      "~": resolvePath("."),
     },
   },
   // 全局常量
   define: {
     // __isDev__,
-    "import.meta.env.VITE_COOKIE_DOMAIN": JSON.stringify(config.COOKIE_DOMAIN),
-    "import.meta.env.VITE_COOKIE_LANG_KEY": JSON.stringify(config.COOKIE_LANG_KEY),
+    "import.meta.env.VITE_COOKIE_DOMAIN": JSON.stringify(envConfig.COOKIE_DOMAIN),
   },
 
   css: {
@@ -37,14 +29,24 @@ export default defineConfig({
   build: __isDev__
     ? {}
     : {
+        outDir: "dist/ss",
         minify: "terser",
         terserOptions: {
           compress: {
             // eslint-disable-next-line camelcase
-            drop_console: config.DROP_CONSOLE !== "false",
+            drop_console: envConfig.DROP_CONSOLE !== "false",
           },
         },
       },
 
-  plugins: [uni(), vueJsx()],
+  plugins: [
+    uni(),
+    vueJsx(),
+    buildProjectConfigPlugin(),
+    !__isDev__ && __isH5__
+      ? compression({
+          algorithm: "gzip",
+        })
+      : null,
+  ],
 });
