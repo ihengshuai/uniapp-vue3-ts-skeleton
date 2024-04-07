@@ -12,6 +12,15 @@ export class NecessaryResInterceptor implements Interceptor {
       const data = res.data;
       const config = res.config;
 
+      // 将http请求状态码不合法的直接抛出
+      if (data.statusCode >= 300) {
+        const error = new Error("") as IHttpError;
+        error.code = data.statusCode;
+        error.config = config;
+        error.response = data;
+        return reject(error);
+      }
+
       // 拿到服务器返回的数据
       const payload = data.payload;
       const customBusinessStatus = config.customBusinessStatusHook?.(res);

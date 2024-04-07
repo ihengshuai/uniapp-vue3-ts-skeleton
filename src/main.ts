@@ -11,7 +11,7 @@ export function createApp() {
   app = createClientApp(App);
   // #endif
 
-  // #ifdef MP-WEIXIN
+  // #ifndef H5
   app = createSSRApp(App);
   // #endif
 

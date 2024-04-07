@@ -1,5 +1,6 @@
 import { InterceptorType, WRONG_MESSAGE } from "@/constants/http";
 import type { IHttpError, Interceptor } from "@/typings/common/http";
+import { HttpStatusCode } from "axios";
 
 /** 错误处理拦截器 */
 export class NecessaryErrorInterceptor implements Interceptor {
@@ -17,6 +18,8 @@ export class NecessaryErrorInterceptor implements Interceptor {
         message = "请求失败";
       } else if (err.message === WRONG_MESSAGE.TIMEOUT) {
         message = "请求超时";
+      } else if (err.code === HttpStatusCode.NotFound) {
+        message = "请求地址不存在";
       }
       if (config?.captureError !== false) {
         uni.showToast({
