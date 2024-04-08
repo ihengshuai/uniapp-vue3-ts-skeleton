@@ -48,7 +48,6 @@ import { onLoad } from "@dcloudio/uni-app";
 import { ref } from "vue";
 import { useNavigationBounding } from "@/hooks/common";
 import PageMain from "@/components/page-main/index.vue";
-import type { Moment } from "moment";
 // #ifdef H5
 import moment from "../../../pure-moment-lib";
 // #endif
@@ -61,7 +60,7 @@ const clickTabItem = (idx: number) => {
 const now = ref("");
 onLoad(() => {
   // #ifndef H5
-  require.async("../../../pure-moment-lib/index.js").then((res: Moment) => {
+  require.async<any>("../../../pure-moment-lib/index.js").then(res => {
     now.value = res.default().format("YYYY-MM-DD HH:mm:ss");
   });
   // #endif
