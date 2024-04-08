@@ -30,13 +30,21 @@ pnpm build:mp-weixin
 # 其他平台参考脚本...
 ```
 
+## 功能
+- 优雅封装网络请求
+- 优雅封装本地存储
+- 分包优化
+- 优雅数据mock
+- 优雅的小程序自动化ci
+- 以及其他不断补充的优化点...
+
 ## mock
 项目中使用了NestJS作为mock服务，开发者可以根据`.env`配置文件轻松切换api地址；NestJS有非常好的架构优势，短期可以作为mock服务使用，如若进行项目新的调整，可以将其作为强大的BFF角色，以便更友好的扩展项目
 
 mock服务使用可以参考我的[博客](https://blog.usword.cn/frontend/nestjs/base.html)
 
 ## 自动化助手
-项目提供了小程序的自动化助手，旨在帮助开发者快速进行小程序的发布，尤其是sass系统或多平台的小程序会占用开发者大量的时间
+项目提供了小程序的自动化助手，旨在帮助开发者快速进行小程序的发布，尤其是sass系统或多平台的小程序会占用开发者大量的时间，安装依赖会默认生成一份ci配置文件
 
 以此为出发点我开发了一款小程序自动化助手，其功能包含：代码上传、提审、发版、体验版等，并且支持多平台；该助手是单独的npm库，你可以在有需要的项目中使用它
 
@@ -45,7 +53,12 @@ mock服务使用可以参考我的[博客](https://blog.usword.cn/frontend/nestj
 npm i @hengshuai/mini-ci @hengshuai/mini-core -D 
 ```
 
-2. 配置文件`.mini-ci/mini-ci.config.js`
+2. 初始化配置文件
+```sh
+mini-ci init
+```
+
+3. 配置文件`.mini-ci/mini-ci.config.js`
 ```js
 // mini-ci.config.js
 const { defineConfig } = require("@hengshuai/mini-core");
@@ -81,7 +94,7 @@ module.exports = defineConfig({
 })
 ```
 
-3. 配置脚本
+4. 配置脚本
 ```package.json
 "scripts": {
   "ci": "mini-ci start",
