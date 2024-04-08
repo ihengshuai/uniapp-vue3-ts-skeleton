@@ -10,7 +10,7 @@ export interface EnvConfig {
   NODE_ENV: "development" | "production";
   DROP_CONSOLE: string;
   PORT: string;
-  BUNDLE_ANALYZER?: string;
+  BUNDLE_ANALYZER?: boolean;
   SSL_CERTIFICATE_KEY?: string;
   SSL_CERTIFICATE?: string;
   appIds: string[];

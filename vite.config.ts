@@ -5,8 +5,9 @@ import compression from "vite-plugin-compression";
 import { buildProjectConfigPlugin } from "./scripts/vite/plugin";
 import { envConfig } from "./scripts/env";
 import { resolvePath } from "./scripts/util";
+import { visualizer } from "rollup-plugin-visualizer";
 
-const { __isDev__, __isH5__ } = envConfig;
+const { __isDev__, __isH5__, BUNDLE_ANALYZER } = envConfig;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -48,5 +49,6 @@ export default defineConfig({
           algorithm: "gzip",
         })
       : null,
+    !__isDev__ && BUNDLE_ANALYZER && visualizer({ open: true, filename: "dist/stats.html" }),
   ],
 });
