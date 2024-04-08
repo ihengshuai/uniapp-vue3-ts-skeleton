@@ -4,6 +4,7 @@
     custom-header
     custom-header-css-style="background:#f40"
   >
+    <text>当前时间：{{ now }}</text>
     <view
       v-for="item in 100"
       :key="item"
@@ -47,12 +48,27 @@ import { onLoad } from "@dcloudio/uni-app";
 import { ref } from "vue";
 import { useNavigationBounding } from "@/hooks/common";
 import PageMain from "@/components/page-main/index.vue";
+import type { Moment } from "moment";
+// #ifdef H5
+import moment from "../../../pure-moment-lib";
+// #endif
 
 // variables
 const tabActiveIdx = ref(0);
 const clickTabItem = (idx: number) => {
   tabActiveIdx.value = idx;
 };
+const now = ref("");
+onLoad(() => {
+  // #ifndef H5
+  require.async("../../../pure-moment-lib/index.js").then((res: Moment) => {
+    now.value = res.default().format("YYYY-MM-DD HH:mm:ss");
+  });
+  // #endif
+  // #ifdef H5
+  now.value = moment().format("YYYY-MM-DD HH:mm:ss");
+  // #endif
+});
 
 // hooks
 useNavigationBounding({ provider: true });

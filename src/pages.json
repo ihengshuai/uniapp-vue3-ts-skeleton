@@ -16,7 +16,6 @@
     ]
   },
   "pages": [
-    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
       "path": "pages/main/home/index",
       "style": {
@@ -40,7 +39,7 @@
   ],
   "subPackages": [
     {
-      "root": "pages/blog",
+      "root": "pages-blog",
       "pages": [
         {
           "path": "index",
@@ -51,7 +50,7 @@
       ]
     },
     {
-      "root": "pages/package-a",
+      "root": "pages-h5",
       "pages": [
         {
           "path": "pages/home/index",
@@ -61,6 +60,10 @@
           }
         }
       ]
+    },
+    {
+      "root": "pure-moment-lib",
+      "pages": []
     }
   ],
   "globalStyle": {

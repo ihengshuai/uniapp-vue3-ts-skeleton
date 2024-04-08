@@ -89,13 +89,13 @@ onHide(() => {
 
 function goSubPage() {
   uni.navigateTo({
-    url: "/pages/package-a/pages/home/index?id=2&name=xiaoming",
+    url: "/pages-h5/pages/home/index?id=2&name=xiaoming",
   });
 }
 
 function goWebviewPage() {
   uni.navigateTo({
-    url: "/pages/blog/index",
+    url: "/pages-blog/index",
   });
 }
 

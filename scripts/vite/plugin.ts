@@ -1,6 +1,7 @@
 import { Plugin } from "vite";
 import { envConfig } from "../env";
 import { Platform } from "../type";
+import { exec } from "child_process";
 
 function getPlatformConfigKey() {
   switch (envConfig.PLATFORM) {
@@ -28,5 +29,11 @@ export function buildProjectConfigPlugin(): Plugin {
       // @ts-ignore
       chunk[configFileName].source = JSON.stringify(projectConfig);
     },
+
+    writeBundle() {
+      if (!envConfig.PLATFORM.startsWith("mp-")) return;
+      console.log("%c 正在处理异步包...", "color:red")
+      exec("node scripts/build-async-packages.js")
+    }
   };
 }

@@ -15,7 +15,7 @@
     "jsxImportSource": "vue",
     "lib": [
       "esnext",
-      "dom"
+      "dom",
     ],
     "types": [
       "@dcloudio/types",

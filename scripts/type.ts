@@ -15,12 +15,12 @@ export interface EnvConfig {
   SSL_CERTIFICATE?: string;
   appIds: string[];
   appId: string;
-  PLATFORM: "weixin" | "alipay" | "h5";
+  PLATFORM: "mp-weixin" | "mp-alipay" | "h5";
 }
 
 
 export enum Platform {
-  weixin = "weixin",
-  alipay = "alipay",
+  weixin = "mp-weixin",
+  alipay = "mp-alipay",
   h5 = "h5",
 }
