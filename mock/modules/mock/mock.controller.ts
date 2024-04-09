@@ -29,4 +29,20 @@ export class MockController {
       user_sex: "男",
     };
   }
+
+  @Get("/gamelist/:gameId")
+  async renderGameList(@Param("gameId") gameId: number) {
+    await sleep(1000);
+
+    return {
+      gameId,
+      apps: [
+        { appName: "游戏1", appId: 1, appVersion: "1.0.0", date: "2020-01-01" },
+        { appName: "游戏2", appId: 2, appVersion: "2.0.0", date: "2020-01-01" },
+        { appName: "游戏3", appId: 3, appVersion: "3.0.0", date: "2020-01-01" },
+        { appName: "游戏4", appId: 4, appVersion: "4.0.0", date: "2020-01-01" },
+        { appName: "游戏5", appId: 5, appVersion: "5.0.0", date: "2020-01-01" },
+      ],
+    };
+  }
 }

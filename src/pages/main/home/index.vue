@@ -44,6 +44,10 @@
       服务器出错(自动重试)
     </button>
     <text>\n</text>
+    <button @click="() => requestDiffCaptureError()">全局拦截错误</button>
+    <text>\n</text>
+    <button @click="() => requestDiffCaptureError(false)">自定义错误(非全局拦截)</button>
+    <text>\n</text>
     <button @click="goSubPage">去子包首页</button>
     <text>\n</text>
     <u-button
@@ -138,6 +142,22 @@ async function requestServerErrorData() {
     console.log("请求出错了...", error.message);
   } finally {
     loading2.value = false;
+  }
+}
+
+async function requestDiffCaptureError(captureError = true) {
+  try {
+    await fetchServerError({
+      captureError,
+      retryCount: 0,
+    });
+  } catch (err) {
+    if (!captureError) {
+      uni.showToast({
+        title: "请求出错了(自定义错误)...",
+        icon: "none",
+      });
+    }
   }
 }
 </script>
