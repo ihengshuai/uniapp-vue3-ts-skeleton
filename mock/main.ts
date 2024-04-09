@@ -4,14 +4,14 @@ import { ViteMiddleware } from "./common/middleware/vite.middleware";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import { GlobalConfiguration } from "./config";
 import { Request, Response } from "express";
-import { VersioningType } from "@nestjs/common";
-import * as compression from "compression";
 import { resolve } from "path";
 import { cwd } from "process";
 import { readFileSync } from "fs";
 import * as cookieParser from "cookie-parser";
-// import * as expressSession from "express-session";
+import { exec } from "child_process";
 
+const platform = process.env.UNI_PLATFORM;
+const isMini = platform?.startsWith("mp-");
 async function bootstrap() {
   const config = GlobalConfiguration();
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -26,9 +26,13 @@ async function bootstrap() {
       : {}),
   });
 
-  app.use(ViteMiddleware);
+  if (!isMini) {
+    app.use(ViteMiddleware);
+  } else {
+    console.log("正在打包小程序，请稍后...\n");
+    exec(`uni -p ${platform}`);
+  }
   app.use(cookieParser());
-  // app.use(expressSession({ secret: "sdf", name: "sx.session", rolling: true, cookie: { maxAge: null } }));
 
   app.enableCors((req: Request, cb) =>
     cb(null, {
@@ -39,22 +43,6 @@ async function bootstrap() {
     })
   );
 
-  // 版本控制
-  app.enableVersioning({
-    type: VersioningType.URI,
-  });
-
-  // 压缩静态资源
-  config.__is_Prod__ &&
-    app.use(
-      compression({
-        filter: (req: Request, res: Response) => {
-          if (/\.(woff2|gz|robots\.txt?)/i.test(req.path)) return false;
-          return compression.filter(req, res);
-        },
-      })
-    );
-
   // 静态资源服务
   app.useStaticAssets(resolve(cwd(), "./public"), {
     dotfiles: "deny",
@@ -63,16 +51,6 @@ async function bootstrap() {
       setCustomCacheControl(res, path);
     },
   });
-
-  // 生产环境增加对客户端静态资源的支持
-  config.__is_Prod__ &&
-    app.useStaticAssets(resolve(cwd(), config.CLIENT_DIR), {
-      dotfiles: "deny",
-      index: false,
-      setHeaders(res: Response, path: string) {
-        setCustomCacheControl(res, path);
-      },
-    });
 
   await app.listen(config.PORT, () => {
     console.log(`Application is running on ${config.PORT} port.\n`);
