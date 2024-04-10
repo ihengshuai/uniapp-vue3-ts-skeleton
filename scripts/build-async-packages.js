@@ -19,6 +19,7 @@ async function buildPackage(packageName) {
     outfile: `dist/${__isDev__ ? "dev" : "build"}/${platform}/${packageName}/index.js`,
     format: "cjs",
     minify: !__isDev__,
+    drop: !__isDev__ ? ['console', 'debugger'] : [],
   });
 }
 
@@ -36,6 +37,21 @@ async function bootstrap() {
     const appPagesConfig = JSON.parse(pageJSON);
     const purePackages = appPagesConfig.subPackages.filter(l => !l.pages.length);
     await bundleQueue(purePackages, 0);
+
+    // 修复uniapp对resolveAlias的问题
+    const buildPageJSON = await fs.readFileSync(
+      resolvePath(`dist/${__isDev__ ? 'dev' : 'build'}/${platform}/app.json`),
+      'utf-8'
+    );
+    const buildPageConfig = JSON.parse(buildPageJSON);
+    buildPageConfig['resolveAlias'] = {
+      ...buildPageConfig['resolveAlias'],
+      '~/*': '/*',
+    };
+    await fs.writeFileSync(
+      resolvePath(`dist/${__isDev__ ? 'dev' : 'build'}/${platform}/app.json`),
+      JSON.stringify(buildPageConfig)
+    );
   } catch (error) {
     throw error;
   }

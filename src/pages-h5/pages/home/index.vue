@@ -69,7 +69,7 @@ const clickTabItem = (idx: number) => {
 };
 const now = ref("");
 // #ifndef H5
-require.async<any>("../../../pure-moment-lib/index.js").then(res => {
+require.async<any>("~/pure-moment-lib/index.js").then(res => {
   now.value = res.default().format("YYYY-MM-DD HH:mm:ss");
 });
 // #endif
