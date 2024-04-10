@@ -7,6 +7,7 @@
       <text>\n年龄：{{ userInfo.age }}</text>
       <text>\n性别：{{ userInfo.sex }}</text>
     </view>
+    <text>globalData: {{ globalAppData.appTitle }}</text>
     <image
       class="logo"
       src="/static/logo.png"
@@ -73,6 +74,7 @@ import {
 } from "@/service/modules/user.service";
 import { storeToRefs } from "pinia";
 import PageMain from "@/components/page-main/index.vue";
+import { useGlobalAppData } from "@/hooks/common";
 
 const title = ref("Hello");
 const appStore = useAppStore();
@@ -90,6 +92,7 @@ onShow(() => {
 onHide(() => {
   console.log("onHide page...");
 });
+const { globalAppData } = useGlobalAppData();
 
 function goSubPage() {
   uni.navigateTo({

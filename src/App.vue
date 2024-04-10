@@ -1,10 +1,20 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
 import { useAppStore } from "@/store";
-import { fetchHomeData } from "./service/modules/app.service";
+import { fetchHomeData } from "@/service/modules/app.service";
+import { useGlobalAppData } from "@/hooks/common";
 const { setAppName, setUserConfig } = useAppStore();
 
+const { setGlobaApplData } = useGlobalAppData();
+
 onLaunch(async () => {
+  // 设置全局数据
+  setTimeout(() => {
+    setGlobaApplData({
+      appTitle: "uniapp skeleton",
+    });
+  }, 800);
+
   console.log("App Launch");
   setAppName("uni-app");
 
