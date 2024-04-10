@@ -110,12 +110,13 @@ function requestUserMockData() {
     .then(res => {
       serverData.value = res;
     })
+    // eslint-disable-next-line no-unused-vars
     .catch(err => {
-      console.log("出错了...", err.message);
-      uni.showToast({
-        title: err.message || "出错了...",
-        icon: "none",
-      });
+      // console.log("出错了...", err.message);
+      // uni.showToast({
+      //   title: err.message || "出错了...",
+      //   icon: "none",
+      // });
     })
     .finally(() => {
       loading.value = false;

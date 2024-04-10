@@ -1,5 +1,6 @@
 import { InterceptorType, WRONG_MESSAGE } from "@/constants/http";
 import type { IHttpError, Interceptor } from "@/typings/common/http";
+import { trimStrSpace } from "@/utils";
 import { HttpStatusCode } from "axios";
 
 /** 错误处理拦截器 */
@@ -10,13 +11,14 @@ export class NecessaryErrorInterceptor implements Interceptor {
 
   async interceptor(err: IHttpError): Promise<any> {
     const config = err.config;
+    const errorMessage = trimStrSpace(err.message);
 
     // 非业务错误
     if (!err.isBusinessError) {
       let message = "请求失败";
-      if (err.message === WRONG_MESSAGE.FAIL) {
+      if (errorMessage === WRONG_MESSAGE.FAIL) {
         message = "请求失败";
-      } else if (err.message === WRONG_MESSAGE.TIMEOUT) {
+      } else if (errorMessage === WRONG_MESSAGE.TIMEOUT) {
         message = "请求超时";
       } else if (err.code === HttpStatusCode.NotFound) {
         message = "请求地址不存在";

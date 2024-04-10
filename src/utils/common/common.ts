@@ -37,3 +37,19 @@ export function snakeToCamel(data: Record<string, any> | any[] | string): any {
   }
   return data;
 }
+
+/**
+ * 去除字符串空格
+ * @param str 目标字符
+ * @param type 去除类型
+ */
+export function trimStrSpace(str: string, type: "all" | "side" | "left" | "right" = "side") {
+  if (type === "all") {
+    return str.replace(/\s+/g, "");
+  } else if (type === "left") {
+    return str.replace(/(^\s*)/g, "");
+  } else if (type === "right") {
+    return str.replace(/(\s*$)/g, "");
+  }
+  return str.replace(/(^\s*)|(\s*$)/g, "");
+}
