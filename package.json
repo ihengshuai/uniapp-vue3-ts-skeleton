@@ -2,9 +2,29 @@
   "name": "uniapp-vue3-skeleton",
   "version": "0.0.1",
   "private": true,
+  "license": "MIT",
+  "keywords": [
+    "uniapp",
+    "uniapp vue3 template",
+    "mini program ci",
+    "mini program"
+  ],
+  "author": {
+    "name": "ihengshuai",
+    "email": "wsm_1105@163.com",
+    "url": "https://github.com/ihengshuai"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ihengshuai/uniapp-vue3-ts-skeleton.git"
+  },
+  "homepage": "https://github.com/ihengshuai/uniapp-vue3-ts-skeleton",
+  "bugs": {
+    "url": "https://github.com/ihengshuai/uniapp-vue3-ts-skeleton/issues"
+  },
   "scripts": {
     "dev": "nest start --watch",
-    "dev:app": "uni -p app",
+    "dev:app": "cross-env UNI_PLATFORM=app pnpm dev",
     "dev:app-android": "cross-env UNI_PLATFORM=app-android pnpm dev",
     "dev:app-ios": "cross-env UNI_PLATFORM=app-ios pnpm dev",
     "dev:custom": "uni -p",
@@ -18,9 +38,9 @@
     "dev:mp-qq": "cross-env UNI_PLATFORM=mp-qq pnpm dev",
     "dev:mp-toutiao": "cross-env UNI_PLATFORM=mp-toutiao pnpm dev",
     "dev:mp-weixin": "cross-env UNI_PLATFORM=mp-weixin pnpm dev",
-    "dev:quickapp-webview": "uni -p quickapp-webview",
-    "dev:quickapp-webview-huawei": "uni -p quickapp-webview-huawei",
-    "dev:quickapp-webview-union": "uni -p quickapp-webview-union",
+    "dev:quickapp-webview": "cross-env UNI_PLATFORM=quickapp-webview pnpm dev",
+    "dev:quickapp-webview-huawei": "cross-env UNI_PLATFORM=quickapp-webview-huawei pnpm dev",
+    "dev:quickapp-webview-union": "cross-env UNI_PLATFORM=quickapp-webview-union pnpm dev",
     "build:app": "uni build -p app",
     "build:app-android": "uni build -p app-android",
     "build:app-ios": "uni build -p app-ios",
@@ -42,6 +62,7 @@
     "type-check": "vue-tsc --noEmit",
     "lint": "pnpm lint:js",
     "lint:js": "eslint --cache --cache-location 'node_modules/.cache/.cache_eslint' --max-warnings 5  \"src/**/*.{vue,ts,tsx}\" --fix",
+    "preinstall": "npx only-allow pnpm",
     "postinstall": "husky install && node scripts/install.js"
   },
   "dependencies": {

@@ -18,6 +18,7 @@ async function buildPackage(packageName) {
     bundle: true,
     outfile: `dist/${__isDev__ ? "dev" : "build"}/${platform}/${packageName}/index.js`,
     format: "cjs",
+    treeShaking: true,
     minify: !__isDev__,
     drop: !__isDev__ ? ['console', 'debugger'] : [],
   });

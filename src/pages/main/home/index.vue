@@ -7,7 +7,7 @@
       <text>\n年龄：{{ userInfo.age }}</text>
       <text>\n性别：{{ userInfo.sex }}</text>
     </view>
-    <text>globalData: {{ globalAppData.appTitle }}</text>
+    <view>globalData: {{ globalAppData.appTitle }}</view>
     <image
       class="logo"
       src="/static/logo.png"
