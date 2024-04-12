@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export interface EnvConfig {
   __isDev__: boolean;
   __isH5__: boolean;
@@ -17,7 +18,6 @@ export interface EnvConfig {
   appId: string;
   PLATFORM: "mp-weixin" | "mp-alipay" | "h5";
 }
-
 
 export enum Platform {
   weixin = "mp-weixin",

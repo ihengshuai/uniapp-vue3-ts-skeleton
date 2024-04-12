@@ -4,7 +4,7 @@ node_modules
 .eslint*
 **/*.test.js
 postcss*
-scripts
+scripts/github
 server
 src/static
 .husky

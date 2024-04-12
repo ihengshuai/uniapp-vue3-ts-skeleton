@@ -17,7 +17,7 @@ export function buildProjectConfigPlugin(): Plugin {
   return {
     name: "build-project-config",
 
-    generateBundle(code, chunk) {
+    generateBundle(_code, chunk) {
       const configFileName = getPlatformConfigKey();
       if (!chunk[configFileName]) return;
 
@@ -32,8 +32,8 @@ export function buildProjectConfigPlugin(): Plugin {
 
     writeBundle() {
       if (!envConfig.PLATFORM.startsWith("mp-")) return;
-      console.log("%c 正在处理异步包...", "color:red")
-      exec("node scripts/build-async-packages.js")
-    }
+      console.log("%c 正在处理异步包...", "color:red");
+      exec("esno scripts/build-async-packages.ts");
+    },
   };
 }

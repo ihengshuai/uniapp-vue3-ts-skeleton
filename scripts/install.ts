@@ -1,8 +1,8 @@
-const fs = require("fs");
-const path = require("path");
-const { exec } = require("child_process");
-const { defaultUserConfigPath } = require("@hengshuai/mini-type");
-const { cwd } = require("process");
+import fs from "fs";
+import path from "path";
+import { exec } from "child_process";
+import { defaultUserConfigPath } from "@hengshuai/mini-type";
+import { cwd } from "process";
 
 const resolvePath = (...args) => path.resolve(cwd(), ...args);
 

@@ -1,5 +1,5 @@
-import path from 'path'
-import process from 'process'
+import path from "path";
+import process from "process";
 
 export const rootDir = process.cwd();
 

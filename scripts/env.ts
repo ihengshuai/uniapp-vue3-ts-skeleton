@@ -16,6 +16,6 @@ export const envConfig: EnvConfig = {
   __isDev__,
   __isH5__,
   BUNDLE_ANALYZER: parsedConfig.BUNDLE_ANALYZER === "true",
-  appIds: parsedConfig.appIds?.split(","),
-  PLATFORM: process.env.UNI_PLATFORM
+  appIds: parsedConfig.appIds,
+  PLATFORM: process.env.UNI_PLATFORM,
 };

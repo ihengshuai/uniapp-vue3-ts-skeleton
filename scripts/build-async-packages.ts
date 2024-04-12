@@ -3,16 +3,16 @@
  * 由于uniapp对异步分包的支持有问题，顾自定义脚本来打包
  */
 
-const { build } = require("esbuild");
-const fs = require("fs");
-const { cwd } = require("process");
-const path = require("path");
+import { build } from "esbuild";
+import fs from "fs";
+import { cwd } from "process";
+import path from "path";
 
-const resolvePath = p => path.resolve(cwd(), p);
+const resolvePath = (p: string) => path.resolve(cwd(), p);
 const __isDev__ = process.env.NODE_ENV === "development";
 const platform = process.env.UNI_PLATFORM;
 
-async function buildPackage(packageName) {
+async function buildPackage(packageName: string) {
   await build({
     entryPoints: [`src/${packageName}/index.ts`],
     bundle: true,
@@ -20,7 +20,7 @@ async function buildPackage(packageName) {
     format: "cjs",
     treeShaking: true,
     minify: !__isDev__,
-    drop: !__isDev__ ? ['console', 'debugger'] : [],
+    drop: !__isDev__ ? ["console", "debugger"] : [],
   });
 }
 
@@ -34,23 +34,23 @@ async function bundleQueue(purePackages, buildIdx = 0) {
 
 async function bootstrap() {
   try {
-    const pageJSON = await fs.readFileSync(resolvePath("src/pages.json"), "utf-8");
+    const pageJSON = fs.readFileSync(resolvePath("src/pages.json"), "utf-8");
     const appPagesConfig = JSON.parse(pageJSON);
-    const purePackages = appPagesConfig.subPackages.filter(l => !l.pages.length);
+    const purePackages = appPagesConfig.subPackages.filter((l: { pages: string[] }) => !l.pages.length);
     await bundleQueue(purePackages, 0);
 
     // 修复uniapp对resolveAlias的问题
-    const buildPageJSON = await fs.readFileSync(
-      resolvePath(`dist/${__isDev__ ? 'dev' : 'build'}/${platform}/app.json`),
-      'utf-8'
+    const buildPageJSON = fs.readFileSync(
+      resolvePath(`dist/${__isDev__ ? "dev" : "build"}/${platform}/app.json`),
+      "utf-8"
     );
     const buildPageConfig = JSON.parse(buildPageJSON);
-    buildPageConfig['resolveAlias'] = {
-      ...buildPageConfig['resolveAlias'],
-      '~/*': '/*',
+    buildPageConfig["resolveAlias"] = {
+      ...buildPageConfig["resolveAlias"],
+      "~/*": "/*",
     };
-    await fs.writeFileSync(
-      resolvePath(`dist/${__isDev__ ? 'dev' : 'build'}/${platform}/app.json`),
+    fs.writeFileSync(
+      resolvePath(`dist/${__isDev__ ? "dev" : "build"}/${platform}/app.json`),
       JSON.stringify(buildPageConfig)
     );
   } catch (error) {
