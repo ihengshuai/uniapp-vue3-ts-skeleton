@@ -9,4 +9,11 @@ export interface IGlobalAppDataOpts {
 
   /** app版本 */
   appVersion?: string;
+
+  author?: {
+    name?: string;
+    age?: number;
+  };
+
+  description?: string;
 }

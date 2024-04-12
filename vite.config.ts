@@ -21,16 +21,14 @@ export default defineConfig({
   define: {
     // __isDev__,
     "import.meta.env.VITE_COOKIE_DOMAIN": JSON.stringify(envConfig.COOKIE_DOMAIN),
-  },
-
-  css: {
-    // preprocessorOptions: {},
+    "import.meta.env.VITE_APPID": JSON.stringify(envConfig.appId),
+    "import.meta.env.VITE_APP_IDS": JSON.stringify(envConfig.appIds || ""),
+    "import.meta.env.VITE_IS_H5": JSON.stringify(__isH5__),
   },
 
   build: __isDev__
     ? {}
     : {
-        outDir: "dist/ss",
         minify: "terser",
         terserOptions: {
           compress: {

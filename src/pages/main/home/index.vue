@@ -1,13 +1,10 @@
 <template>
-  <PageMain class="content">
-    <text>\n</text>
-    <view v-if="userInfo.name && userInfo.age && userInfo.sex">
-      来自App全局请求的数据：
-      <text>\n姓名：{{ userInfo.name }}</text>
-      <text>\n年龄：{{ userInfo.age }}</text>
-      <text>\n性别：{{ userInfo.sex }}</text>
-    </view>
-    <view>globalData: {{ globalAppData.appTitle }}</view>
+  <PageMain
+    class="content"
+    :loading="loading"
+    loading-text="大爷请稍等..."
+    fixed-header
+  >
     <image
       class="logo"
       src="/static/logo.png"
@@ -16,6 +13,34 @@
       <text class="title">{{ title }} {{ appName }}</text>
     </view>
     <text>\n</text>
+
+    <!-- #ifndef H5 -->
+    <view style="font-weight: 500">当前appId: {{ appConfig.APP_ID }}</view>
+    <text>\n</text>
+    <!-- #endif -->
+
+    <view v-if="userInfo.name && userInfo.age && userInfo.sex">
+      来自App全局请求的数据：
+      <text>\n姓名：{{ userInfo.name }}</text>
+      <text>\n年龄：{{ userInfo.age }}</text>
+      <text>\n性别：{{ userInfo.sex }}\n\n</text>
+    </view>
+    <view>
+      globalData:
+      <view>{{ globalAppData.appTitle }}</view>
+      <view v-if="globalAppData.author?.name">{{ globalAppData.author.name }}</view>
+      <view v-if="globalAppData.author?.age">{{ globalAppData.author.age }}</view>
+    </view>
+    <u-button
+      style="width: 200px"
+      type="primary"
+      shape="circle"
+      @click="changeGlobalData"
+    >
+      修改globalData
+    </u-button>
+    <text>\n</text>
+
     <view
       v-if="serverData"
       style="color: #999; font-size: 28rpx"
@@ -75,6 +100,7 @@ import {
 import { storeToRefs } from "pinia";
 import PageMain from "@/components/page-main/index.vue";
 import { useGlobalAppData } from "@/hooks/common";
+import { useConfig } from "@/config";
 
 const title = ref("Hello");
 const appStore = useAppStore();
@@ -82,6 +108,7 @@ const { appName, userInfo } = storeToRefs(appStore);
 const loading2 = ref(false);
 const loading = ref(false);
 const serverData = ref();
+const appConfig = useConfig();
 
 onLoad(() => {
   console.log("onLaunch page...", appName.value);
@@ -92,7 +119,16 @@ onShow(() => {
 onHide(() => {
   console.log("onHide page...");
 });
-const { globalAppData } = useGlobalAppData();
+const { globalAppData, setGlobaApplData } = useGlobalAppData();
+
+function changeGlobalData() {
+  setGlobaApplData({
+    author: {
+      age: Math.floor(Math.random() * 9 + 20),
+    },
+  });
+  console.log("changeGlobalData", globalAppData.value);
+}
 
 function goSubPage() {
   uni.navigateTo({

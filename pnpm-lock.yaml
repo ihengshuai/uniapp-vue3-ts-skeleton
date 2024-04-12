@@ -21,6 +21,7 @@ specifiers:
   '@dcloudio/uni-quickapp-webview': 3.0.0-3081220230817001
   '@dcloudio/uni-stacktracey': 3.0.0-3081220230817001
   '@dcloudio/vite-plugin-uni': 3.0.0-3081220230817001
+  '@hengshuai/helper': ^0.2.9
   '@hengshuai/mini-ci': ^0.1.9
   '@hengshuai/mini-core': ^0.1.8
   '@hengshuai/mini-helper': ^0.1.8
@@ -100,6 +101,7 @@ dependencies:
   '@dcloudio/uni-mp-toutiao': 3.0.0-3081220230817001_ts-node@10.9.2+vue@3.4.21
   '@dcloudio/uni-mp-weixin': 3.0.0-3081220230817001_ts-node@10.9.2+vue@3.4.21
   '@dcloudio/uni-quickapp-webview': 3.0.0-3081220230817001_ts-node@10.9.2+vue@3.4.21
+  '@hengshuai/helper': 0.2.9
   '@nestjs/common': 10.3.7_prqteaxeztlh7hcpcoxjb3p2le
   '@nestjs/config': 3.2.1_srlwaqk5myec4pmmbg23ihcbfm
   '@nestjs/core': 10.3.7_yus5svu3suflkec63io4ph3omu
@@ -4167,6 +4169,15 @@ packages:
       '@hapi/hoek': 9.3.0
     dev: false
 
+  /@hengshuai/helper/0.2.9:
+    resolution: {integrity: sha512-9HVYF7xhEIyoYg9XgEQi45SmXt7NH/RFY0GeQWSl09JIxrcmjnkpAfdCgWHeo4wtyMJxKA1n9wFHSyzAfpSF5w==}
+    dependencies:
+      '@babel/core': 7.24.3
+      babel: 6.23.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@hengshuai/mini-ci/0.1.9_typescript@4.9.5:
     resolution: {integrity: sha512-P9vY3P8Nq5kLSy3Ehl/hmlKYYnhQk+kq90/YEhg661FY3TNeYILZCB59FZpHkEAHPvpYBWj7mKP6+tyZkYk4zQ==}
     engines: {node: '>=18.0.0'}
@@ -7283,6 +7294,12 @@ packages:
       lodash: 4.17.21
       to-fast-properties: 1.0.3
     dev: true
+
+  /babel/6.23.0:
+    resolution: {integrity: sha512-ZDcCaI8Vlct8PJ3DvmyqUz+5X2Ylz3ZuuItBe/74yXosk2dwyVo/aN7MCJ8HJzhnnJ+6yP4o+lDgG9MBe91DLA==}
+    deprecated: In 6.x, the babel package has been deprecated in favor of babel-cli. Check https://opencollective.com/babel to support the Babel maintainers
+    hasBin: true
+    dev: false
 
   /babylon/6.18.0:
     resolution: {integrity: sha512-q/UEjfGJ2Cm3oKV71DJz9d25TPnq5rhBVL2Q4fA5wcC3jcrdn7+SssEybFIxwAvvP+YCsCYNKughoF33GxgycQ==}

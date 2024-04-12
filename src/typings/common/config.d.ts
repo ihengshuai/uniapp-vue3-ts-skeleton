@@ -41,4 +41,17 @@ export interface IConfig {
    * Cookie Domain
    */
   COOKIE_DOMAIN: string;
+
+  /**
+   * appId：当前小程序id
+   */
+  APP_ID: string;
+
+  /**
+   * appIds: sass系统中所有小程序id
+   */
+  APP_IDS: string[];
+
+  /** 是否是h5环境 */
+  __isH5__: boolean;
 }

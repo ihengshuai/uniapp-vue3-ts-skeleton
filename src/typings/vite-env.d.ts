@@ -32,6 +32,19 @@ interface ImportMetaEnv {
    * Language Cookie Key
    */
   VITE_COOKIE_LANG_KEY: string;
+
+  /**
+   * appId：当前小程序id
+   */
+  VITE_APP_ID: string;
+
+  /**
+   * appIds: sass系统中所有小程序id
+   */
+  VITE_APP_IDS: string;
+
+  /** 是否h5环境 */
+  VITE_IS_H5: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention, no-unused-vars

@@ -3,8 +3,10 @@ import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
 import { useAppStore } from "@/store";
 import { fetchHomeData } from "@/service/modules/app.service";
 import { useGlobalAppData } from "@/hooks/common";
-const { setAppName, setUserConfig } = useAppStore();
+import { useConfig } from "./config";
 
+const appConfig = useConfig();
+const { setAppName, setUserConfig } = useAppStore();
 const { setGlobaApplData } = useGlobalAppData();
 
 onLaunch(async () => {
@@ -15,7 +17,9 @@ onLaunch(async () => {
     });
   }, 800);
 
-  console.log("App Launch");
+  console.log(
+    `App Launch, 当前环境: ${appConfig.__isH5__ ? "h5" : "非h5"},${appConfig.__isDev__ ? "开发" : "生产"}环境`
+  );
   setAppName("uni-app");
 
   fetchHomeData().then(res => {

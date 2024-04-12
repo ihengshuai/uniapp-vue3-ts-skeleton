@@ -1,3 +1,6 @@
+import type { DeepMerge } from "@/typings/common/type";
+import { isObject } from "@hengshuai/helper";
+
 /**
  * 日志
  */
@@ -52,4 +55,26 @@ export function trimStrSpace(str: string, type: "all" | "side" | "left" | "right
     return str.replace(/(\s*$)/g, "");
   }
   return str.replace(/(^\s*)|(\s*$)/g, "");
+}
+
+/**
+ * 深度遍历两个对象，将后者值覆盖前者
+ */
+export function deepMerge<T, U>(target: T, source: U): DeepMerge<T, U> {
+  if (isObject(target) && isObject(source)) {
+    const merged: any = { ...target };
+
+    for (const key in source) {
+      if (isObject(source[key])) {
+        // @ts-ignore
+        merged[key] = deepMerge(target[key as any], source[key]);
+      } else {
+        merged[key] = source[key];
+      }
+    }
+
+    return merged;
+  }
+
+  return source as DeepMerge<T, U>;
 }
