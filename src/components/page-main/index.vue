@@ -5,10 +5,12 @@
   >
     <CustomNavigation
       v-if="!noHeader && customHeader"
-      :custom-header-css-style="customHeaderCssStyle"
-      :custom-bar-style-vars="customBarStyleVars"
-      :fixed="fixedHeader"
       :title="title"
+      :fixed="fixedHeader"
+      :home-url="homeUrl"
+      :custom-bar-style-vars="customBarStyleVars"
+      :show-header-left-menu="showHeaderLeftMenu"
+      :custom-header-css-style="customHeaderCssStyle"
     />
     <template v-else>
       <slot name="customHeader" />
@@ -24,6 +26,7 @@
 import CustomNavigation from "@/components/custom-navigation/index.vue";
 import { CUSTOM_NAVIGATION_VARS_KAY } from "@/constants/vue-provider-keys";
 import { Logger } from "@/utils";
+import { watchEffect } from "vue";
 import { computed, inject, type PropType, type Ref } from "vue";
 
 const props = defineProps({
@@ -61,11 +64,27 @@ const props = defineProps({
   },
   title: {
     type: String,
-    default: "我是标题",
+    default: "标题",
   },
   class: {
     type: String,
     default: "",
+  },
+  showHeaderLeftMenu: {
+    type: Boolean,
+    default: true,
+  },
+  homeUrl: {
+    type: String,
+    default: null,
+  },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
+  loadingText: {
+    type: String,
+    default: "加载中...",
   },
 });
 
@@ -82,6 +101,15 @@ const pageCls = computed(() => ({
   "page-main--fixed-header": props.fixedHeader && props.customHeader && !props.noHeader,
   [props.class]: true,
 }));
+
+watchEffect(() => {
+  if (props.loading) {
+    return uni.showLoading({
+      title: props.loadingText,
+    });
+  }
+  uni.hideLoading();
+});
 </script>
 
 <style lang="scss" scoped>

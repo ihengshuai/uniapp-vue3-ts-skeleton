@@ -3,7 +3,7 @@ import { resolvePath } from "./util";
 import { EnvConfig, Platform } from "./type";
 
 const __isDev__ = process.env.NODE_ENV === "development";
-const __isH5__ = process.env.PLATFORM === Platform.h5;
+const __isH5__ = process.env.UNI_PLATFORM === Platform.h5;
 
 const parsedConfig =
   dotenv.config({

@@ -1,4 +1,4 @@
-import { onLoad } from "@dcloudio/uni-app";
+import { onLoad, onShow } from "@dcloudio/uni-app";
 import { computed, provide, ref } from "vue";
 import { CUSTOM_NAVIGATION_VARS_KAY } from "@/constants/vue-provider-keys";
 
@@ -24,6 +24,18 @@ export function useNavigationBounding(opts?: INavigationBounding) {
 
   // #ifndef H5
   onLoad(() => {
+    computeNavigationHeight();
+  });
+  onShow(() => {
+    computeNavigationHeight();
+  });
+  // #endif
+
+  if (opts?.provider) {
+    provide(CUSTOM_NAVIGATION_VARS_KAY, customBarStyleVars);
+  }
+
+  function computeNavigationHeight() {
     uni.getSystemInfo({
       success: res => {
         const { statusBarHeight = placeholderBarHeight } = res;
@@ -32,11 +44,6 @@ export function useNavigationBounding(opts?: INavigationBounding) {
         miniBarHeight.value = ((top - statusBarHeight) * 2 + height) * 2;
       },
     });
-  });
-  // #endif
-
-  if (opts?.provider) {
-    provide(CUSTOM_NAVIGATION_VARS_KAY, customBarStyleVars);
   }
 
   return {

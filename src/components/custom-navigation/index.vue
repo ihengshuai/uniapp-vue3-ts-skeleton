@@ -8,15 +8,19 @@
     <!-- #endif -->
     <view class="navigation__body">
       <view class="navigation__left">
-        <view class="navigation__back">
+        <view
+          v-if="showHeaderLeftMenu"
+          class="navigation__back"
+        >
           <u-icon
-            name="arrow-left"
-            @click="goPreviouPage"
-          ></u-icon>
+            :name="isTopStackPage ? 'home' : 'arrow-left'"
+            class="navigation__back__menu"
+            @click="() => clickNavigationLeftMenu()"
+          />
         </view>
       </view>
       <view class="navigation__title">
-        <text>{{ props.title }}</text>
+        <text>{{ title }}</text>
       </view>
       <view class="navigation__right" />
     </view>
@@ -28,6 +32,9 @@ import type { Ref, PropType } from "vue";
 import { inject } from "vue";
 import { CUSTOM_NAVIGATION_VARS_KAY } from "@/constants/vue-provider-keys";
 import { computed } from "vue";
+import { useConfig } from "@/config";
+import { ref } from "vue";
+const { __isH5__ } = useConfig();
 
 const props = defineProps({
   customBarStyleVars: {
@@ -46,12 +53,22 @@ const props = defineProps({
     type: String,
     default: "标题",
   },
+  homeUrl: {
+    type: String,
+    default: null,
+  },
+  showHeaderLeftMenu: {
+    type: Boolean,
+    default: true,
+  },
 });
 
+const isTopStackPage = ref(getCurrentPages().length === 1);
 const navigationCls = computed(() => {
   return {
     navigation: true,
     "navigation--fixed": props.fixed,
+    h5: __isH5__,
   };
 });
 const customBarVars = inject<Ref<Record<string, string>> | null>(CUSTOM_NAVIGATION_VARS_KAY, null);
@@ -64,8 +81,15 @@ const navigationStyle = computed(() => {
   return joinVars2Str;
 });
 
-function goPreviouPage() {
-  uni.navigateBack();
+function clickNavigationLeftMenu() {
+  if (isTopStackPage.value) {
+    props.homeUrl &&
+      uni.reLaunch({
+        url: props.homeUrl,
+      });
+  } else {
+    uni.navigateBack();
+  }
 }
 </script>
 
@@ -74,8 +98,8 @@ function goPreviouPage() {
 .navigation {
   background: #fff;
   box-sizing: border-box;
-  padding: 0 16rpx;
-  border-bottom: 1px solid #efefef;
+  padding: 0 20rpx;
+  // border-bottom: 1px solid #efefef;
 
   // 导航固定
   &--fixed {
@@ -83,6 +107,23 @@ function goPreviouPage() {
     left: 0;
     top: 0;
     width: 100%;
+    z-index: 1;
+  }
+
+  // 顶部左侧菜单
+  &__back {
+    font-size: 32rpx;
+
+    &__menu {
+      // width: 40rpx;
+      font-size: 38rpx;
+      cursor: pointer;
+    }
+  }
+
+  // h5平台
+  &.h5 {
+    padding: 12rpx 20rpx;
   }
 }
 // 状态栏

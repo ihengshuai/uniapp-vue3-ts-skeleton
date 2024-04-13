@@ -2,7 +2,9 @@
   <PageMain
     fixed-header
     custom-header
-    custom-header-css-style="background:#f40"
+    custom-header-css-style="background: url('/static/logo.png') 0 0/100rpx repeat"
+    home-url="/pages/main/home/index"
+    title="h5页面💚"
   >
     <text>当前时间：{{ now }}</text>
     <u-button @click="requestGameList">请求游戏列表</u-button>
