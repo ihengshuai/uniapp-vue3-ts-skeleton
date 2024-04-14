@@ -2,6 +2,7 @@
   <PageMain
     fixed-header
     custom-header
+    :loading="appListLoading"
     custom-header-css-style="background: url('/static/logo.png') 0 0/100rpx repeat"
     home-url="/pages/main/home/index"
     title="h5页面💚"
@@ -53,15 +54,14 @@
 </template>
 
 <script lang="ts" setup>
-import { onLoad } from "@dcloudio/uni-app";
+import { onLoad, onPullDownRefresh } from "@dcloudio/uni-app";
 import { ref } from "vue";
 import { useNavigationBounding } from "@/hooks/common";
 import PageMain from "@/components/page-main/index.vue";
 import { fetchGameListMockData } from "@/pages-h5/service/game.service";
 import type { IAppInfo } from "@/typings/business/game.interface.ts";
-
 // #ifdef H5
-import moment from "../../../pure-moment-lib";
+import moment from "@/pure-moment-lib";
 // #endif
 
 // variables
@@ -79,17 +79,27 @@ require.async<any>("~/pure-moment-lib/index.js").then(res => {
 now.value = moment().format("YYYY-MM-DD HH:mm:ss");
 // #endif
 const appList = ref<IAppInfo[]>([]);
+const appListLoading = ref(false);
 
 // hooks
 useNavigationBounding({ provider: true });
 onLoad(query => {
   console.log("package-a onLoad", query);
 });
+onPullDownRefresh(() => {
+  requestGameList();
+});
 
 // functions
 async function requestGameList() {
-  const { apps } = (await fetchGameListMockData(+new Date())) || {};
-  appList.value = apps || [];
+  try {
+    appListLoading.value = true;
+    const { apps } = (await fetchGameListMockData(+new Date())) || {};
+    appList.value = apps || [];
+  } finally {
+    appListLoading.value = false;
+    uni.stopPullDownRefresh();
+  }
 }
 </script>
 

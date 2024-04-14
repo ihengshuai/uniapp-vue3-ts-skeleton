@@ -15,6 +15,8 @@ const USER_API = {
   BUSINESS_ERROR: `/api/mock/business-error-request`,
   /** 请求本身发生错误 */
   SERVER_ERROR: `/api/mock/server-error-request`,
+  /** 获取用户信息 */
+  USER_INFO: `/api/mock/user/{id}`,
 };
 
 /** 模拟正确请求 */
@@ -64,6 +66,18 @@ export function fetchServerError(config?: IHttpRequestConfig) {
     retryCount: 3,
     headers: {
       "is-server-error": true,
+    },
+    ...config,
+  });
+}
+
+/**
+ * 获取用户信息
+ */
+export function fetchUserInfo(userId: number, config?: IHttpRequestConfig) {
+  return httpInstance.get<{ name: string; id: number; time: string }>(USER_API.USER_INFO, {
+    urlPath: {
+      id: userId,
     },
     ...config,
   });

@@ -1,3 +1,4 @@
+import { formatDate } from "@/utils";
 import { sleep } from "@/utils/common";
 import { Controller, ForbiddenException, Get, Param, Post } from "@nestjs/common";
 
@@ -43,6 +44,17 @@ export class MockController {
         { appName: "游戏4", appId: 4, appVersion: "4.0.0", date: "2020-01-01" },
         { appName: "游戏5", appId: 5, appVersion: "5.0.0", date: "2020-01-01" },
       ],
+    };
+  }
+
+  @Get("/user/:id")
+  async getUserInfo(@Param("id") id: string) {
+    await sleep(1500);
+
+    return {
+      id,
+      name: "ihengshuai",
+      time: formatDate(new Date(), "YYYY/MM/DD HH:mm:ss"),
     };
   }
 }
