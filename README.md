@@ -12,7 +12,11 @@
 pnpm i
 ```
 
-2. 运行项目
+3. 配置项目
+
+在项目根目录下创建`.env`文件，并将`.env.example`内容复制进去即可，其他订制配置请自行添加
+
+3. 运行项目
 ```sh
 pnpm dev:h5
 
@@ -21,7 +25,7 @@ pnpm dev:mp-weixin
 # 其他平台参考脚本...
 ```
 
-3. 打包项目
+4. 打包项目
 ```sh
 pnpm build:h5
 
@@ -109,7 +113,7 @@ npm i @hengshuai/mini-ci @hengshuai/mini-core -D
 
 2. 初始化配置文件
 ```sh
-mini-ci init
+npx mini-ci init
 ```
 
 3. 配置文件`.mini-ci/mini-ci.config.js`
