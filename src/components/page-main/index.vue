@@ -97,8 +97,8 @@ if (props.customHeader && !customBarVars?.value) {
 }
 
 const pageCls = computed(() => ({
-  "page-main": true,
-  "page-main--fixed-header": props.fixedHeader && props.customHeader && !props.noHeader,
+  "layout__page-main": true,
+  "layout__page-main--fixed-header": props.fixedHeader && props.customHeader && !props.noHeader,
   [props.class]: true,
 }));
 
@@ -113,7 +113,7 @@ watchEffect(() => {
 </script>
 
 <style lang="scss" scoped>
-.page-main {
+.layout__page-main {
   box-sizing: border-box;
 
   &--fixed-header {
@@ -122,7 +122,7 @@ watchEffect(() => {
 }
 
 // 内容区
-.page-main__body {
+.layout__page-main__body {
   padding: 16rpx;
 }
 </style>

@@ -1,10 +1,10 @@
-import { HTTP_DATA_TYPE } from "@/constants/http";
+import { HTTP_DATA_TYPE, InterceptorType } from "@/constants/http";
 import { AxiosRequestConfig } from "axios";
 
 export abstract class Interceptor {
   static _ins: Interceptor;
   abstract type: InterceptorType;
-  abstract interceptor(res: IResponseData | unknown): Promise<any>;
+  abstract interceptor(res: IInterceptorData | unknown): Promise<any>;
   static instance: Interceptor;
 }
 

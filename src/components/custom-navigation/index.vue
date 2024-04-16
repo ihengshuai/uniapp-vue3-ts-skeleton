@@ -4,25 +4,25 @@
     :style="navigationStyle"
   >
     <!-- #ifndef H5 -->
-    <view class="navigation__bar"></view>
+    <view class="layout__navigation__bar"></view>
     <!-- #endif -->
-    <view class="navigation__body">
-      <view class="navigation__left">
+    <view class="layout__navigation__body">
+      <view class="layout__navigation__left">
         <view
-          v-if="showHeaderLeftMenu"
-          class="navigation__back"
+          v-if="showHeaderLeftMenu && !!homeUrl"
+          class="layout__navigation__back"
         >
           <u-icon
             :name="isTopStackPage ? 'home' : 'arrow-left'"
-            class="navigation__back__menu"
+            class="layout__navigation__back__menu"
             @click="() => clickNavigationLeftMenu()"
           />
         </view>
       </view>
-      <view class="navigation__title">
+      <view class="layout__navigation__title">
         <text>{{ title }}</text>
       </view>
-      <view class="navigation__right" />
+      <view class="layout__navigation__right" />
     </view>
   </view>
 </template>
@@ -66,8 +66,9 @@ const props = defineProps({
 const isTopStackPage = ref(getCurrentPages().length === 1);
 const navigationCls = computed(() => {
   return {
-    navigation: true,
-    "navigation--fixed": props.fixed,
+    // eslint-disable-next-line camelcase
+    layout__navigation: true,
+    "layout__navigation--fixed": props.fixed,
     h5: __isH5__,
   };
 });
@@ -95,7 +96,7 @@ function clickNavigationLeftMenu() {
 
 <style lang="scss" scoped>
 // 最外部容器
-.navigation {
+.layout__navigation {
   background: #fff;
   box-sizing: border-box;
   padding: 0 20rpx;
@@ -127,26 +128,26 @@ function clickNavigationLeftMenu() {
   }
 }
 // 状态栏
-.navigation__bar {
+.layout__navigation__bar {
   width: 100%;
   height: var(--system-status-bar-height, 40rpx);
 }
 // 导航栏
-.navigation__body {
+.layout__navigation__body {
   display: flex;
   align-items: center;
   justify-content: center;
   height: var(--mini-bar-height, 40rpx);
 }
-.navigation__title {
+.layout__navigation__title {
   padding: 0 16rpx;
   flex: 1;
   text-align: center;
 }
-.navigation__left {
+.layout__navigation__left {
   width: 150rpx;
 }
-.navigation__right {
+.layout__navigation__right {
   width: 150rpx;
 }
 </style>
