@@ -60,6 +60,12 @@
             "navigationStyle": "custom",
             "enablePullDownRefresh": true
           }
+        },
+        {
+          "path": "pages/custom-navigation/index",
+          "style": {
+            "navigationStyle": "custom"
+          }
         }
       ]
     },

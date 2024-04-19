@@ -76,6 +76,8 @@
     <text>\n</text>
     <button @click="goSubPage">去子包首页</button>
     <text>\n</text>
+    <button @click="goCustomNavigationPage">自定义导航栏页面</button>
+    <text>\n</text>
     <u-button
       type="primary"
       class="u-btn"
@@ -133,6 +135,12 @@ function changeGlobalData() {
 function goSubPage() {
   uni.navigateTo({
     url: "/pages-h5/pages/home/index?id=2&name=xiaoming",
+  });
+}
+
+function goCustomNavigationPage() {
+  uni.navigateTo({
+    url: "/pages-h5/pages/custom-navigation/index",
   });
 }
 
