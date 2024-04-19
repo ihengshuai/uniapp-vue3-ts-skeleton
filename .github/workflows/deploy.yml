@@ -4,7 +4,6 @@ name: deploy
 on:
   push:
     branches:
-      - dev
       - template
 
 env:
