@@ -90,7 +90,7 @@ const now = moment();
 // 使用异步分包后
 let now;
 require
-  .async("../../pure-moment-lib/index.js")
+  .async("~/pure-moment-lib/index.js")
   .then(res => {
     now = res.default();
   })

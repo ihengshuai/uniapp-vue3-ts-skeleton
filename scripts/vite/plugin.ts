@@ -1,7 +1,7 @@
 import { Plugin } from "vite";
 import { envConfig } from "../env";
 import { Platform } from "../type";
-import { exec } from "child_process";
+import { spawn } from "child_process";
 
 function getPlatformConfigKey() {
   switch (envConfig.PLATFORM) {
@@ -32,8 +32,11 @@ export function buildProjectConfigPlugin(): Plugin {
 
     writeBundle() {
       if (!envConfig.PLATFORM.startsWith("mp-")) return;
-      console.log("%c 正在处理异步包...", "color:red");
-      exec("esno scripts/build-async-packages.ts");
+      console.log("正在处理异步包...");
+      spawn("esno", ["scripts/build-async-packages.ts"], {
+        stdio: "inherit",
+        shell: true,
+      });
     },
   };
 }

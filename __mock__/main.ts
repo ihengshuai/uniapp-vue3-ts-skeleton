@@ -8,7 +8,7 @@ import { resolve } from "path";
 import { cwd } from "process";
 import { readFileSync } from "fs";
 import * as cookieParser from "cookie-parser";
-import { exec } from "child_process";
+import { spawn } from "child_process";
 
 const platform = process.env.UNI_PLATFORM;
 const isMini = platform?.startsWith("mp-");
@@ -29,8 +29,10 @@ async function bootstrap() {
   if (!isMini) {
     app.use(ViteMiddleware);
   } else {
-    console.log("正在打包小程序，请稍后...\n");
-    exec(`uni -p ${platform}`);
+    spawn(`uni -p ${platform}`, {
+      shell: true,
+      stdio: "inherit",
+    });
   }
   app.use(cookieParser());
 

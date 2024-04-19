@@ -53,6 +53,7 @@ async function bootstrap() {
       resolvePath(`dist/${__isDev__ ? "dev" : "build"}/${platform}/app.json`),
       JSON.stringify(buildPageConfig)
     );
+    console.log("\n异步分包[done⭐️]\n");
   } catch (error) {
     throw error;
   }

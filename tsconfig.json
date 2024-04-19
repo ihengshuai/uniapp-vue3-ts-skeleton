@@ -8,7 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "target": "ES2021",
     "sourceMap": true,
-    "outDir": "./dist/mock",
+    "outDir": "./dist/__mock__",
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
@@ -19,7 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@/*": [
-        "./mock/*"
+        "./__mock__/*"
       ],
       "~/*": [
         "./*"
