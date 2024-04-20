@@ -32,7 +32,6 @@ export function buildProjectConfigPlugin(): Plugin {
 
     writeBundle() {
       if (!envConfig.PLATFORM.startsWith("mp-")) return;
-      console.log("正在处理异步包...");
       spawn("esno", ["scripts/build-async-packages.ts"], {
         stdio: "inherit",
         shell: true,

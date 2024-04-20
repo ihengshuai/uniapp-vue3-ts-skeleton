@@ -7,16 +7,17 @@ import { build } from "esbuild";
 import fs from "fs";
 import { cwd } from "process";
 import path from "path";
+import chokidar from "chokidar";
 
 const resolvePath = (p: string) => path.resolve(cwd(), p);
 const __isDev__ = process.env.NODE_ENV === "development";
-const platform = process.env.UNI_PLATFORM;
+const platform = process.env.UNI_PLATFORM || "mp-weixin";
 
 async function buildPackage(packageName: string) {
   await build({
-    entryPoints: [`src/${packageName}/index.ts`],
+    entryPoints: [`src/packages/${packageName}/index.ts`],
     bundle: true,
-    outfile: `dist/${__isDev__ ? "dev" : "build"}/${platform}/${packageName}/index.js`,
+    outfile: `dist/${__isDev__ ? "dev" : "build"}/${platform}/package-${packageName}/index.js`,
     format: "cjs",
     treeShaking: true,
     minify: !__isDev__,
@@ -28,23 +29,29 @@ async function bundleQueue(purePackages, buildIdx = 0) {
   if (buildIdx >= purePackages.length) {
     return;
   }
-  await buildPackage(purePackages[buildIdx].root);
+  await buildPackage(purePackages[buildIdx]);
   bundleQueue(purePackages, buildIdx + 1);
 }
 
 async function bootstrap() {
   try {
-    const pageJSON = fs.readFileSync(resolvePath("src/pages.json"), "utf-8");
-    const appPagesConfig = JSON.parse(pageJSON);
-    const purePackages = appPagesConfig.subPackages.filter((l: { pages: string[] }) => !l.pages.length);
-    await bundleQueue(purePackages, 0);
+    console.log("正在处理异步分包...");
+    const asyncPackages = await fs.readdirSync(resolvePath("src/packages"));
+    await bundleQueue(asyncPackages, 0);
 
-    // 修复uniapp对resolveAlias的问题
     const buildPageJSON = fs.readFileSync(
       resolvePath(`dist/${__isDev__ ? "dev" : "build"}/${platform}/app.json`),
       "utf-8"
     );
     const buildPageConfig = JSON.parse(buildPageJSON);
+
+    buildPageConfig.subPackages = buildPageConfig.subPackages || [];
+    const subPackageNames = buildPageConfig.subPackages.map(l => l.root);
+    buildPageConfig.subPackages.unshift(
+      ...asyncPackages.map(p => ({ root: `package-${p}`, pages: [] })).filter(l => !subPackageNames.includes(l.root))
+    );
+
+    // 修复uniapp对resolveAlias的问题
     buildPageConfig["resolveAlias"] = {
       ...buildPageConfig["resolveAlias"],
       "~/*": "/*",
@@ -53,7 +60,7 @@ async function bootstrap() {
       resolvePath(`dist/${__isDev__ ? "dev" : "build"}/${platform}/app.json`),
       JSON.stringify(buildPageConfig)
     );
-    console.log("\n异步分包[done⭐️]\n");
+    console.log("done.\n");
   } catch (error) {
     throw error;
   }
@@ -61,6 +68,13 @@ async function bootstrap() {
 
 try {
   bootstrap();
+
+  if (__isDev__) {
+    const watch = chokidar.watch("src/packages/**/*.ts", { persistent: true /**ignored: /?=ts$/i */ });
+    watch.on("change", async () => {
+      await bootstrap();
+    });
+  }
 } catch (err) {
   console.error(err);
   process.exit(0);

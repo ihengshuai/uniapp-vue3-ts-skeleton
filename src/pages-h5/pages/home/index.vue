@@ -61,7 +61,7 @@ import PageMain from "@/components/page-main/index.vue";
 import { fetchGameListMockData } from "@/pages-h5/service/game.service";
 import type { IAppInfo } from "@/typings/business/game.interface.ts";
 // #ifdef H5
-import moment from "@/pure-moment-lib";
+import { formatDate } from "@/packages/moment";
 // #endif
 
 // variables
@@ -71,12 +71,13 @@ const clickTabItem = (idx: number) => {
 };
 const now = ref("");
 // #ifndef H5
-require.async<any>("~/pure-moment-lib/index.js").then(res => {
-  now.value = res.default().format("YYYY-MM-DD HH:mm:ss");
+require.async<any>("~/package-moment/index.js").then((res: any) => {
+  console.log("moment加载成功,", res);
+  now.value = res.formatDate(new Date(), "YYYY-MM-DD HH:mm:ss");
 });
 // #endif
 // #ifdef H5
-now.value = moment().format("YYYY-MM-DD HH:mm:ss");
+now.value = formatDate(new Date(), "YYYY-MM-DD HH:mm:ss");
 // #endif
 const appList = ref<IAppInfo[]>([]);
 const appListLoading = ref(false);

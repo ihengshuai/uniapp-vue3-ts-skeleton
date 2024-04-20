@@ -68,10 +68,6 @@
           }
         }
       ]
-    },
-    {
-      "root": "pure-moment-lib",
-      "pages": []
     }
   ],
   "globalStyle": {
