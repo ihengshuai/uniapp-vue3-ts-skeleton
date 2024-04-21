@@ -54,52 +54,40 @@ mock服务使用可以参考我的[博客](https://blog.usword.cn/frontend/nestj
 
 使用约束：
 - 每个异步包应导出单独的第三方库，尽量不要包含多个库
-- 异步包应以通用的规范命名，这样在项目中也能通俗易懂
-- 异步分包一定要配置uniapp的`pages.json`文件，因为小程序默认会读取打包后的`app.json`，当内容不匹配时会报错；在`subPackages`中配置`root`属性，指定分包的根目录，以及`pages: []`这个必须要写，脚本要判断
+- 异步包应以通用的规范命名，必须以`packages/库名/index.ts`格式设置异步包
 - 异步加载使用
 
 ### 示例
-1. 假如考虑到moment这个库体积太大，很影响包的体积大小，那就可以采用异步分包形式将其拆分，这里以`pure-库名-lib/index.ts`命名为例：
+1. 假如考虑到moment这个库体积太大，很影响包的体积大小，那就可以采用异步分包形式将其拆分，这里以`packages/库名/index.ts`命名为例：
 
 ```ts
-// src/pure-moment-lib/index.ts
+// src/packages/moment/index.ts
+import moment from "moment";
 
-import moment from 'moment';
-export default moment;
-```
-
-2. 在`pages.json`中配置异步包
-```json
-{
-  "subPackages": [
-    // 省略其他pages
-    {
-      "root": "pure-moment-lib",
-      "pages": [], // 注意这里一定要为空数组
-    }
-  ]
+export function formatDate(date: Date | string, format: string) {
+  return moment(date).format(format);
 }
 ```
 
-3. 在项目中使用，下面会对比下使用异步分包后的使用比较：
+2. 在项目中使用，下面会对比下使用异步分包后的使用比较：
 ```ts
 // 使用异步分包前
 import moment from 'moment';
-const now = moment();
+const now = moment().format("YYYY-MM-DD HH:mm:ss");
 
 // 使用异步分包后
 let now;
-require
-  .async("~/pure-moment-lib/index.js")
-  .then(res => {
-    now = res.default();
-  })
+__non_webpack_require__ &&
+  __non_webpack_require__("~/package-moment/index.js", res => {
+    console.log("moment加载成功,", res);
+    now = res.formatDate(new Date(), "YYYY-MM-DD HH:mm:ss");
+  });
 ```
 
 ### 使用效果
 项目中在分包`pages-h5`中使用了momentjs，采用异步分包后，可以看到分包已经降到了`3kb`，这对后续业务变得复杂包体积考虑不再是问题
 
-![](https://ihengshuai-demo1.oss-cn-beijing.aliyuncs.com/mp-bundler-analyzer.png)
+![](https://ihengshuai-demo1.oss-cn-beijing.aliyuncs.com/mp-bundler-analyze.png)
 
 ## 自动化助手
 项目提供了小程序的自动化助手，旨在帮助开发者快速进行小程序的发布，尤其是sass系统或多平台的小程序会占用开发者大量的时间，安装依赖会默认生成一份ci配置文件
