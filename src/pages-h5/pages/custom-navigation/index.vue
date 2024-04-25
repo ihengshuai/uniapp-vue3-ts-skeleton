@@ -17,11 +17,12 @@
 </template>
 
 <script lang="ts" setup>
+import { onReachBottom } from "@dcloudio/uni-app";
+import { ref } from "vue";
+
 import PageMain from "@/components/page-main/index.vue";
 import { useNavigationBounding } from "@/hooks/common";
 import { sleep } from "@/utils";
-import { onReachBottom } from "@dcloudio/uni-app";
-import { ref } from "vue";
 
 const loading = ref(false);
 

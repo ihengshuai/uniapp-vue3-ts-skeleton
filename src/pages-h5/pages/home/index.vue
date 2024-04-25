@@ -56,12 +56,13 @@
 <script lang="ts" setup>
 import { onLoad, onPullDownRefresh } from "@dcloudio/uni-app";
 import { ref } from "vue";
-import { useNavigationBounding } from "@/hooks/common";
+
 import PageMain from "@/components/page-main/index.vue";
+import { useNavigationBounding } from "@/hooks/common";
+import { formatDate } from "@/packages/moment";
 import { fetchGameListMockData } from "@/pages-h5/service/game.service";
 import type { IAppInfo } from "@/typings/business/game.interface.ts";
 // #ifdef H5
-import { formatDate } from "@/packages/moment";
 // #endif
 
 // variables

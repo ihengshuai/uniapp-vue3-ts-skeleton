@@ -23,11 +23,12 @@
 </template>
 
 <script lang="ts" setup>
+import { watchEffect } from "vue";
+import { computed, inject, type PropType, type Ref } from "vue";
+
 import CustomNavigation from "@/components/custom-navigation/index.vue";
 import { CUSTOM_NAVIGATION_VARS_KAY } from "@/constants/vue-provider-keys";
 import { Logger } from "@/utils";
-import { watchEffect } from "vue";
-import { computed, inject, type PropType, type Ref } from "vue";
 
 const props = defineProps({
   customBarStyleVars: {

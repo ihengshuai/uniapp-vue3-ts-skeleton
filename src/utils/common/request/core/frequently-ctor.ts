@@ -1,8 +1,10 @@
-import type { IHttpError, IHttpRequestConfig, Interceptor } from "@/typings/common/http";
 import type { Method } from "axios";
+
+import { HTTP_METHOD, InterceptorType, WRONG_MESSAGE } from "@/constants/http";
+import type { IHttpError, IHttpRequestConfig, Interceptor } from "@/typings/common/http";
+
 import { HttpClient } from "./base";
 import { CancelToken } from "../cancel-token";
-import { HTTP_METHOD, InterceptorType, WRONG_MESSAGE } from "@/constants/http";
 import {
   runInterceptors,
   BeautifyResInterceptor,

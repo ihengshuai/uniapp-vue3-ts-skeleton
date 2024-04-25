@@ -23,7 +23,7 @@ module.exports = {
     "plugin:vue/vue3-recommended",
     "plugin:prettier/recommended",
   ],
-  plugins: ["vue", "@typescript-eslint", "prettier"],
+  plugins: ["import", "vue", "@typescript-eslint", "prettier"],
   rules: {
     "prettier/prettier": "error",
     "no-explicit-any": "off",
@@ -49,9 +49,36 @@ module.exports = {
         },
       },
     ],
+    'import/first': 'warn',
+    'import/order': [
+      'warn',
+      {
+        groups: ['builtin', 'external', ['internal', 'parent', 'sibling', 'index']],
+        pathGroups: [
+          {
+            pattern: '@/**',
+            group: 'external',
+            position: 'after'
+          }
+        ],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true
+        },
+      },
+    ],
     // vue
     "vue/no-v-html": "off",
     "vue/multi-word-component-names": "off",
     "vue/one-component-per-file": "off",
   },
+  overrides: [
+    {
+      files: ['*.d.ts'],
+      rules: {
+        'import/order': 'off',
+      },
+    },
+  ]
 };

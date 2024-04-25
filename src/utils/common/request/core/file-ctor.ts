@@ -1,6 +1,7 @@
-import type { IHttpRequestConfig } from "@/typings/common/http";
-import { HttpClient } from "./base";
 import { HTTP_METHOD } from "@/constants/http";
+import type { IHttpRequestConfig } from "@/typings/common/http";
+
+import { HttpClient } from "./base";
 
 export class HttpClientFile extends HttpClient {
   private static _uploadInstance: Uni["uploadFile"];

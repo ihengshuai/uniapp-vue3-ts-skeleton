@@ -90,19 +90,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
 import { onHide, onLoad, onShow } from "@dcloudio/uni-app";
-import { useAppStore } from "@/store";
+import { storeToRefs } from "pinia";
+import { ref } from "vue";
+
+import PageMain from "@/components/page-main/index.vue";
+import { useConfig } from "@/config";
+import { useGlobalAppData } from "@/hooks/common";
 import {
   fetchUserMockData,
   fetchBusinessError,
   fetchServerError,
   fetchCustomBusinessErrorHook,
 } from "@/service/modules/user.service";
-import { storeToRefs } from "pinia";
-import PageMain from "@/components/page-main/index.vue";
-import { useGlobalAppData } from "@/hooks/common";
-import { useConfig } from "@/config";
+import { useAppStore } from "@/store";
 
 const title = ref("Hello");
 const appStore = useAppStore();

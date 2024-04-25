@@ -1,6 +1,7 @@
-import type { IUserInfo } from "@/typings/business/user.interceface";
 import { defineStore } from "pinia";
 import { reactive, ref } from "vue";
+
+import type { IUserInfo } from "@/typings/business/user.interceface";
 
 export const useAppStore = defineStore("appStore", () => {
   const appName = ref();

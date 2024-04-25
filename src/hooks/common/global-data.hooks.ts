@@ -3,9 +3,10 @@
  * 使用pinia状态管理也可以，本意都是全局变量
  */
 
+import { ref, toRaw } from "vue";
+
 import type { IGlobalAppDataOpts } from "@/typings/common/app-data";
 import { deepMerge } from "@/utils";
-import { ref, toRaw } from "vue";
 
 const globalAppData = ref<IGlobalAppDataOpts>({});
 export function useGlobalAppData() {

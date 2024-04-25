@@ -1,5 +1,6 @@
 import { onLoad, onShow } from "@dcloudio/uni-app";
 import { computed, provide, ref } from "vue";
+
 import { CUSTOM_NAVIGATION_VARS_KAY } from "@/constants/vue-provider-keys";
 
 const placeholderBarHeight = 40;

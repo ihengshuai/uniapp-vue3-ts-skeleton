@@ -1,7 +1,9 @@
-import { createSSRApp, createApp as createClientApp, type App as VueApp } from "vue";
-import App from "./App.vue";
-import { setStore } from "@/store";
 import uviewPlus from "uview-plus";
+import { createSSRApp, createApp as createClientApp, type App as VueApp } from "vue";
+
+import { setStore } from "@/store";
+
+import App from "./App.vue";
 
 export function createApp() {
   let app: VueApp;

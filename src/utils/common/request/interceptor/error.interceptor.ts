@@ -1,7 +1,8 @@
+import { HttpStatusCode } from "axios";
+
 import { InterceptorType, WRONG_MESSAGE } from "@/constants/http";
 import type { IHttpError, Interceptor } from "@/typings/common/http";
 import { trimStrSpace } from "@/utils";
-import { HttpStatusCode } from "axios";
 
 /** 错误处理拦截器 */
 export class NecessaryErrorInterceptor implements Interceptor {

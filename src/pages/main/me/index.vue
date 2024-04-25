@@ -8,10 +8,11 @@
 </template>
 
 <script lang="ts" setup>
-import PageMain from "@/components/page-main/index.vue";
-import { fetchUserInfo } from "@/service/modules/user.service";
 import { onLoad, onPullDownRefresh } from "@dcloudio/uni-app";
 import { ref } from "vue";
+
+import PageMain from "@/components/page-main/index.vue";
+import { fetchUserInfo } from "@/service/modules/user.service";
 
 const userInfo = ref<{ name: string; id: number; time: string }>();
 const loading = ref(false);

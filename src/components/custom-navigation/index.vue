@@ -30,10 +30,11 @@
 <script lang="ts" setup>
 import type { Ref, PropType } from "vue";
 import { inject } from "vue";
-import { CUSTOM_NAVIGATION_VARS_KAY } from "@/constants/vue-provider-keys";
 import { computed } from "vue";
-import { useConfig } from "@/config";
 import { ref } from "vue";
+
+import { useConfig } from "@/config";
+import { CUSTOM_NAVIGATION_VARS_KAY } from "@/constants/vue-provider-keys";
 const { __isH5__ } = useConfig();
 
 const props = defineProps({

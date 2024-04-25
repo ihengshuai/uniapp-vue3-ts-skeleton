@@ -1,5 +1,6 @@
-import type { DeepMerge } from "@/typings/common/type";
 import { isObject } from "@hengshuai/helper";
+
+import type { DeepMerge } from "@/typings/common/type";
 
 /**
  * 日志

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
-import { useAppStore } from "@/store";
-import { fetchHomeData } from "@/service/modules/app.service";
+
 import { useGlobalAppData } from "@/hooks/common";
+import { fetchHomeData } from "@/service/modules/app.service";
+import { useAppStore } from "@/store";
+
 import { useConfig } from "./config";
 
 const appConfig = useConfig();

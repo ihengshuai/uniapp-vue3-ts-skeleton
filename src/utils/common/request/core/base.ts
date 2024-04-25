@@ -1,9 +1,10 @@
+import { type Method } from "axios";
+import qs from "qs";
+
 import { useConfig } from "@/config";
 import { HTTP_DATA_TYPE } from "@/constants/http";
 import type { IHttpRequestConfig } from "@/typings/common/http";
 import type { IDict } from "@/typings/common/type";
-import { type Method } from "axios";
-import qs from "qs";
 
 const config = useConfig();
 

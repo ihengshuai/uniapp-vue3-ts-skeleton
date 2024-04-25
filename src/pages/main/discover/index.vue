@@ -12,6 +12,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+
 import PageMain from "@/components/page-main/index.vue";
 
 const show = ref(false);
