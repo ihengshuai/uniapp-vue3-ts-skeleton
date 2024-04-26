@@ -1,5 +1,6 @@
-import { config } from "dotenv";
 import { cwd } from "process";
+
+import { config } from "dotenv";
 
 const devConfig = config({
   path: cwd() + "/.env",

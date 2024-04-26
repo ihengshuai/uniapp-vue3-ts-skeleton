@@ -1,7 +1,9 @@
+import { spawn } from "child_process";
+
 import { Plugin } from "vite";
+
 import { envConfig } from "../env";
 import { Platform } from "../type";
-import { spawn } from "child_process";
 
 function getPlatformConfigKey() {
   switch (envConfig.PLATFORM) {

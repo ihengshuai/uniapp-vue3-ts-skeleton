@@ -1,14 +1,16 @@
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
-import { ViteMiddleware } from "./common/middleware/vite.middleware";
-import type { NestExpressApplication } from "@nestjs/platform-express";
-import { GlobalConfiguration } from "./config";
-import { Request, Response } from "express";
+import { spawn } from "child_process";
+import { readFileSync } from "fs";
 import { resolve } from "path";
 import { cwd } from "process";
-import { readFileSync } from "fs";
+
+import { NestFactory } from "@nestjs/core";
+import type { NestExpressApplication } from "@nestjs/platform-express";
 import * as cookieParser from "cookie-parser";
-import { spawn } from "child_process";
+import { Request, Response } from "express";
+
+import { AppModule } from "./app.module";
+import { ViteMiddleware } from "./common/middleware/vite.middleware";
+import { GlobalConfiguration } from "./config";
 
 const platform = process.env.UNI_PLATFORM;
 const isMini = platform?.startsWith("mp-");

@@ -1,9 +1,11 @@
-import { resolve } from "path";
-import { NextFunction, Request, Response } from "express";
-import { cwd } from "process";
-import { ViteDevServer, createServer as createViteServer } from "vite";
-import { GlobalConfiguration } from "@/config";
 import { readFileSync } from "fs";
+import { resolve } from "path";
+import { cwd } from "process";
+
+import { NextFunction, Request, Response } from "express";
+import { ViteDevServer, createServer as createViteServer } from "vite";
+
+import { GlobalConfiguration } from "@/config";
 
 const globalConfig = GlobalConfiguration();
 

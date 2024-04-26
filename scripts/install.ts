@@ -1,8 +1,9 @@
+import { exec } from "child_process";
 import fs from "fs";
 import path from "path";
-import { exec } from "child_process";
-import { defaultUserConfigPath } from "@hengshuai/mini-type";
 import { cwd } from "process";
+
+import { defaultUserConfigPath } from "@hengshuai/mini-type";
 
 const resolvePath = (...args) => path.resolve(cwd(), ...args);
 

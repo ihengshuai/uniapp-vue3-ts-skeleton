@@ -1,14 +1,17 @@
 import { resolve } from "path";
-import { MiddlewareConsumer, Module, NestModule, ValidationPipe } from "@nestjs/common";
-import * as Joi from "joi";
-import { HttpFilter } from "@/common/filter/http.filter";
-import { LoggerMiddleware } from "@/common/middleware/log.middleware";
-import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
-import { ConfigModule } from "@nestjs/config";
-import { GlobalConfiguration } from "@/config";
 import { cwd } from "process";
-import { CommonController } from "./common.controller";
+
+import { MiddlewareConsumer, Module, NestModule, ValidationPipe } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { APP_FILTER, APP_INTERCEPTOR, APP_PIPE } from "@nestjs/core";
+import * as Joi from "joi";
+
+import { HttpFilter } from "@/common/filter/http.filter";
 import { BeautyResponseInterceptor } from "@/common/interceptor/beauty-response.interceptor";
+import { LoggerMiddleware } from "@/common/middleware/log.middleware";
+import { GlobalConfiguration } from "@/config";
+
+import { CommonController } from "./common.controller";
 
 @Module({
   imports: [

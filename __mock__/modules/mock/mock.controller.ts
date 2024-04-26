@@ -1,6 +1,7 @@
+import { Controller, ForbiddenException, Get, Param, Post } from "@nestjs/common";
+
 import { formatDate } from "@/utils";
 import { sleep } from "@/utils/common";
-import { Controller, ForbiddenException, Get, Param, Post } from "@nestjs/common";
 
 @Controller("/api/mock")
 export class MockController {

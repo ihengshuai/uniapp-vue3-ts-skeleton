@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
-import { resolvePath } from "./util";
+
 import { EnvConfig, Platform } from "./type";
+import { resolvePath } from "./util";
 
 const __isDev__ = process.env.NODE_ENV === "development";
 const __isH5__ = process.env.UNI_PLATFORM === Platform.h5;
