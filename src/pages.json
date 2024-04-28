@@ -56,15 +56,24 @@
         {
           "path": "pages/home/index",
           "style": {
-            "navigationBarTitleText": "uni-app(package-a)",
+            "navigationBarTitleText": "",
             "navigationStyle": "custom",
-            "enablePullDownRefresh": true
+            "enablePullDownRefresh": true,
+            "mp-alipay": {
+              "transparentTitle": "always",
+              "titlePenetrate": "YES"
+            }
           }
         },
         {
           "path": "pages/custom-navigation/index",
           "style": {
-            "navigationStyle": "custom"
+            "navigationBarTitleText": "",
+            "navigationStyle": "custom",
+            "mp-alipay": {
+              "transparentTitle": "always",
+              "titlePenetrate": "YES"
+            }
           }
         }
       ]
